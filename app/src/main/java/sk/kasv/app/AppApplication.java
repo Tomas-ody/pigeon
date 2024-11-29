@@ -4,6 +4,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.boot.SpringApplication;
 import org.json.simple.JSONObject;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +20,10 @@ public class AppApplication {
 
 	@CrossOrigin
 	@PostMapping(value = "/login")
-	public Response loginUser(@RequestBody JSONObject userLoginData) {
+	public ResponseEntity<JSONObject> loginUser(@RequestBody JSONObject userLoginData) {
 
 		if (userLoginData.get("username") == null) {
-			return Response.
+			return ResponseEntity.status(400).body();
 		}
 
 
