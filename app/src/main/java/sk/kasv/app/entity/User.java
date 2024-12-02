@@ -1,6 +1,7 @@
-package sk.kasv.app.model;
+package sk.kasv.app.entity;
 
 public class User {
+
     private int id;
     private String username;
     private String password;

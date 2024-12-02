@@ -1,11 +1,11 @@
-package sk.kasv.app.model;
+package sk.kasv.app.entity;
 
 public class Pigeon {
     private int id;
     private String name;
     private String color;
     private String breed;
-    private int addedByUserId;
+    private int ownerId;
 
     public int getId() {
         return id;
@@ -39,23 +39,23 @@ public class Pigeon {
         this.breed = breed;
     }
 
-    public int getAddedByUserId() {
-        return addedByUserId;
+    public int getOwnerId() {
+        return ownerId;
     }
 
-    public void setAddedByUserId(int addedByUserId) {
-        this.addedByUserId = addedByUserId;
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     public Pigeon() {
 
     }
 
-    public Pigeon(int id, String name, String color, String breed, int addedByUserId) {
+    public Pigeon(int id, String name, String color, String breed, int ownerId) {
         this.id = id;
         this.name = name;
         this.color = color;
         this.breed = breed;
-        this.addedByUserId = addedByUserId;
+        this.ownerId = ownerId;
     }
 }
