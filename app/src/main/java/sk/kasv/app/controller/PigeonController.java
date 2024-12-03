@@ -22,27 +22,31 @@ public class PigeonController {
     private PigeonService pigeonService;
 
     @GetMapping
-    public JSONArray getAllPigeons() {
-        return ConverterToJson.createListOfPigeons(pigeonService.getAllPigeons());
+    public ResponseEntity<JSONArray> getAllPigeons() {
+        return ResponseEntity.status(200).body(ConverterToJson.createListOfPigeons(pigeonService.getAllPigeons()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<JSONObject> getPigeonById(@PathVariable int id) {
-        return ResponseEntity.ok(ConverterToJson.createPigeonJson(pigeonService.getPigeonById(id)));
+        if (pigeonService.getPigeonById(id) != null)
+            return ResponseEntity.status(200).body(ConverterToJson.createPigeonJson(pigeonService.getPigeonById(id)));
+        return ResponseEntity.status(404).body(null);
     }
 
     @PostMapping
-    public boolean addPigeon(@RequestBody JSONObject request, @AuthenticationPrincipal User currentUser) {
+    public ResponseEntity<Boolean> addPigeon(@RequestBody JSONObject request, @AuthenticationPrincipal User currentUser) {
         Pigeon pigeon = new Pigeon();
         pigeon.setName(ConverterFromJson.getString(request, "name"));
         pigeon.setColor(ConverterFromJson.getString(request, "color"));
         pigeon.setBreed(ConverterFromJson.getString(request, "breed"));
         pigeon.setOwnerId(currentUser.getId());
-        return pigeonService.addPigeon(pigeon) != null;
+        if (pigeonService.addPigeon(pigeon) != null)
+            return ResponseEntity.status(201).body(true);
+        return ResponseEntity.status(400).body(false);
     }
 
     @PutMapping("/{id}")
-    public boolean updatePigeon(
+    public ResponseEntity<Boolean> updatePigeon(
             @PathVariable int id,
             @RequestBody JSONObject request,
             @AuthenticationPrincipal User currentUser) {
@@ -50,7 +54,10 @@ public class PigeonController {
         updatedPigeon.setName(ConverterFromJson.getString(request, "name"));
         updatedPigeon.setColor(ConverterFromJson.getString(request, "color"));
         updatedPigeon.setBreed(ConverterFromJson.getString(request, "breed"));
-        return pigeonService.updatePigeon(id, updatedPigeon, currentUser) != null;
+
+        if (pigeonService.updatePigeon(id, updatedPigeon, currentUser) != null)
+            return ResponseEntity.status(200).body(true);
+        return ResponseEntity.status(400).body(false);
     }
 
     @DeleteMapping("/{id}")

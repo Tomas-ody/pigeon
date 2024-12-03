@@ -42,6 +42,16 @@ public class ConverterToJson {
         }
 
         return jsonArray;
+    }
 
+    public static JSONArray createListOfUsers(List<User> list) {
+
+        JSONArray jsonArray = new JSONArray();
+
+        for (User user : list) {
+            jsonArray.add(createUserJson(user));
+        }
+
+        return jsonArray;
     }
 }

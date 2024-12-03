@@ -18,15 +18,4 @@ public class AppApplication {
 		SpringApplication.run(AppApplication.class, args);
 	}
 
-	@CrossOrigin
-	@PostMapping(value = "/login")
-	public ResponseEntity<JSONObject> loginUser(@RequestBody JSONObject userLoginData) {
-
-		if (userLoginData.get("username") == null) {
-			return ResponseEntity.status(400).body();
-		}
-
-
-	}
-
 }

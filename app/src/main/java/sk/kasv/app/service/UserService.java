@@ -3,15 +3,17 @@ package sk.kasv.app.service;
 import org.springframework.stereotype.Service;
 import sk.kasv.app.entity.User;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class UserService {
     private final Map<Integer, User> userStorage = new HashMap<>();
     private int userIdCounter = 2;
+
+    public List<User> getAllUsers() {
+        return new ArrayList<>(userStorage.values());
+    }
 
     public UserService() {
         // Add a default admin and user for testing
