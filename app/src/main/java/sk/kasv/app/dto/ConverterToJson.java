@@ -54,4 +54,8 @@ public class ConverterToJson {
 
         return jsonArray;
     }
+
+    public static JSONObject createSingleJson(String token) {
+        return (JSONObject) new JSONObject().put("token", token);
+    }
 }

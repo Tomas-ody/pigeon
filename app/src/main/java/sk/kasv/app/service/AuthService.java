@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.kasv.app.entity.User;
 import sk.kasv.app.security.JwtTokenProvider;
+import sk.kasv.app.dto.AuthResponse;
 
 @Service
 public class AuthService {
@@ -22,7 +23,8 @@ public class AuthService {
             throw new RuntimeException("Invalid username or password");
         }
 
-        String token = jwtTokenProvider.createToken(user.getUsername(), user.isAdmin());
+        String token = jwtTokenProvider.createToken(user.getUsername(), user.isAdmin()
+        );
         return new AuthResponse(token);
     }
 }
