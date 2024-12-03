@@ -31,7 +31,9 @@ public class UserController {
     // Endpoint to fetch the current user's details
     @GetMapping("/me")
     public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal User currentUser) {
-        return ResponseEntity.status(200).body(ConverterToJson.createUserJson(currentUser));
+        if (currentUser != null)
+            return ResponseEntity.status(200).body(ConverterToJson.createUserJson(currentUser));
+        return ResponseEntity.status(400).body(ConverterToJson.jsonMessage("Not registered"));
     }
 
     // Endpoint to fetch a user by ID (Admin only)

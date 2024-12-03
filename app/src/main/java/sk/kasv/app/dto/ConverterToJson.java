@@ -58,4 +58,8 @@ public class ConverterToJson {
     public static JSONObject createSingleJson(String token) {
         return (JSONObject) new JSONObject().put("token", token);
     }
+
+    public static JSONObject jsonMessage(String message) {
+        return (JSONObject) new JSONObject().put("message", message);
+    }
 }

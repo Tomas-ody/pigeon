@@ -27,6 +27,14 @@ public class UserService {
                 .findFirst();
     }
 
+    public User getUserById(int id) {
+        return userStorage.get(id);
+    }
+
+    public void deleteUserById(int id) {
+        userStorage.remove(id);
+    }
+
     public User addUser(String username, String password, boolean role) {
         int userId = ++userIdCounter;
         User user = new User(userId, username, password, role);
