@@ -1,11 +1,18 @@
 package sk.kasv.app.controller;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import sk.kasv.app.dto.ConverterFromJson;
+import sk.kasv.app.dto.ConverterToJson;
 import sk.kasv.app.entity.Pigeon;
 import sk.kasv.app.entity.User;
+import sk.kasv.app.service.PigeonService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/pigeons")
@@ -15,39 +22,39 @@ public class PigeonController {
     private PigeonService pigeonService;
 
     @GetMapping
-    public List<PigeonResponse> getAllPigeons() {
-        return pigeonService.getAllPigeons();
+    public JSONArray getAllPigeons() {
+        return ConverterToJson.createListOfPigeons(pigeonService.getAllPigeons());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PigeonResponse> getPigeonById(@PathVariable long id) {
-        return ResponseEntity.ok(pigeonService.getPigeonById(id));
+    public ResponseEntity<JSONObject> getPigeonById(@PathVariable int id) {
+        return ResponseEntity.ok(ConverterToJson.createPigeonJson(pigeonService.getPigeonById(id)));
     }
 
     @PostMapping
-    public Pigeon addPigeon(@RequestBody PigeonRequest request, @AuthenticationPrincipal User currentUser) {
+    public boolean addPigeon(@RequestBody JSONObject request, @AuthenticationPrincipal User currentUser) {
         Pigeon pigeon = new Pigeon();
-        pigeon.setName(request.getName());
-        pigeon.setColor(request.getColor());
-        pigeon.setBreed(request.getBreed());
+        pigeon.setName(ConverterFromJson.getString(request, "name"));
+        pigeon.setColor(ConverterFromJson.getString(request, "color"));
+        pigeon.setBreed(ConverterFromJson.getString(request, "breed"));
         pigeon.setOwnerId(currentUser.getId());
-        return pigeonService.addPigeon(pigeon);
+        return pigeonService.addPigeon(pigeon) != null;
     }
 
     @PutMapping("/{id}")
-    public Pigeon updatePigeon(
-            @PathVariable Long id,
-            @RequestBody PigeonRequest request,
+    public boolean updatePigeon(
+            @PathVariable int id,
+            @RequestBody JSONObject request,
             @AuthenticationPrincipal User currentUser) {
         Pigeon updatedPigeon = new Pigeon();
-        updatedPigeon.setName(request.getName());
-        updatedPigeon.setColor(request.getColor());
-        updatedPigeon.setBreed((request.getBreed()));
-        return pigeonService.updatePigeon(id, updatedPigeon, currentUser);
+        updatedPigeon.setName(ConverterFromJson.getString(request, "name"));
+        updatedPigeon.setColor(ConverterFromJson.getString(request, "color"));
+        updatedPigeon.setBreed(ConverterFromJson.getString(request, "breed"));
+        return pigeonService.updatePigeon(id, updatedPigeon, currentUser) != null;
     }
 
     @DeleteMapping("/{id}")
-    public void deletePigeon(@PathVariable Long id, @AuthenticationPrincipal User currentUser) {
+    public void deletePigeon(@PathVariable int id, @AuthenticationPrincipal User currentUser) {
         pigeonService.deletePigeon(id, currentUser);
     }
 }

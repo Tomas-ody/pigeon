@@ -4,16 +4,13 @@ import org.springframework.stereotype.Service;
 import sk.kasv.app.entity.Pigeon;
 import sk.kasv.app.entity.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class PigeonService {
     private final Map<Integer, Pigeon> pigeonStorage = new HashMap<>();
-    private final AtomicLong pigeonIdCounter = new AtomicLong(1);
+    private int pigeonIdCounter = 5;
 
     public List<Pigeon> getAllPigeons() {
         return new ArrayList<>(pigeonStorage.values());
@@ -26,7 +23,7 @@ public class PigeonService {
     public List<Pigeon> getPigeonsByOwner(int ownerId) {
         List<Pigeon> pigeons = new ArrayList<>();
         for (Pigeon pigeon : pigeonStorage.values()) {
-            if (pigeon.getOwnerId() == (ownerId)) {
+            if (pigeon.getOwnerId() == ownerId) {
                 pigeons.add(pigeon);
             }
         }
@@ -34,19 +31,19 @@ public class PigeonService {
     }
 
     public Pigeon addPigeon(Pigeon pigeon) {
-        pigeon.setId(pigeonIdCounter.getAndIncrement());
+        pigeon.setId(++pigeonIdCounter);
         pigeonStorage.put(pigeon.getId(), pigeon);
         return pigeon;
     }
 
-    public Pigeon updatePigeon(Long id, Pigeon updatedPigeon, User currentUser) {
+    public Pigeon updatePigeon(int id, Pigeon updatedPigeon, User currentUser) {
         Pigeon existingPigeon = pigeonStorage.get(id);
         if (existingPigeon == null) {
             throw new RuntimeException("Pigeon not found");
         }
 
         // Check permissions
-        if (!existingPigeon.getOwnerId().equals(currentUser.getId()) && !"ADMIN".equals(currentUser.getRole())) {
+        if (!(existingPigeon.getOwnerId() == (currentUser.getId())) && !currentUser.isAdmin()) {
             throw new RuntimeException("You do not have permission to update this pigeon.");
         }
 
@@ -58,14 +55,14 @@ public class PigeonService {
         return existingPigeon;
     }
 
-    public void deletePigeon(Long id, User currentUser) {
+    public void deletePigeon(int id, User currentUser) {
         Pigeon existingPigeon = pigeonStorage.get(id);
         if (existingPigeon == null) {
             throw new RuntimeException("Pigeon not found");
         }
 
         // Check permissions
-        if (!(existingPigeon.getOwnerId() == (currentUser.getId())) && !"ADMIN".equals(currentUser.getRole())) {
+        if (!(Objects.equals(existingPigeon.getOwnerId(), currentUser.getId())) && !currentUser.isAdmin()) {
             throw new RuntimeException("You do not have permission to delete this pigeon.");
         }
 
