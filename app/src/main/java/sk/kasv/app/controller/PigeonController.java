@@ -38,6 +38,9 @@ public class PigeonController {
     public ResponseEntity<Boolean> addPigeon(@RequestBody JSONObject request, @AuthenticationPrincipal User currentUser) {
         Pigeon pigeon = new Pigeon();
         pigeon.setName(ConverterFromJson.getString(request, "name"));
+        pigeon.setFatherId(ConverterFromJson.getInt(request, "fatherId"));
+        pigeon.setMotherId(ConverterFromJson.getInt(request, "motherId"));
+        pigeon.setKidsId(ConverterFromJson.getList(request, "kidsId"));
         pigeon.setColor(ConverterFromJson.getString(request, "color"));
         pigeon.setBreed(ConverterFromJson.getString(request, "breed"));
         pigeon.setOwnerId(currentUser.getId());

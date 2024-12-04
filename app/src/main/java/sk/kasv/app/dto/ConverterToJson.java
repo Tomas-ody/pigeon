@@ -14,6 +14,9 @@ public class ConverterToJson {
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.put("id", pigeon.getId());
+        jsonObject.put("fatherId", pigeon.getFatherId());
+        jsonObject.put("motherId", pigeon.getMotherId());
+        jsonObject.put("kidsId", pigeon.getKidsId());
         jsonObject.put("name", pigeon.getName());
         jsonObject.put("color", pigeon.getColor());
         jsonObject.put("breed", pigeon.getBreed());
@@ -56,10 +59,14 @@ public class ConverterToJson {
     }
 
     public static JSONObject createSingleJson(String token) {
-        return (JSONObject) new JSONObject().put("token", token);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token", token);
+        return jsonObject;
     }
 
     public static JSONObject jsonMessage(String message) {
-        return (JSONObject) new JSONObject().put("message", message);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", message);
+        return jsonObject;
     }
 }

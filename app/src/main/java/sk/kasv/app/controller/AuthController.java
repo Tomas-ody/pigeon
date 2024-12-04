@@ -23,6 +23,7 @@ public class AuthController {
     @PostMapping("/login")
     @CrossOrigin
     public ResponseEntity<JSONObject> login(@RequestBody JSONObject authRequest) {
+
         AuthResponse response = authService.login(
                 ConverterFromJson.getString(authRequest, "username"),
                 ConverterFromJson.getString(authRequest, "password")
@@ -31,6 +32,8 @@ public class AuthController {
         if (response == null) {
             return ResponseEntity.status(400).body(null);
         }
-        return ResponseEntity.status(200).body(ConverterToJson.createSingleJson(response.getToken()));
+        return ResponseEntity.status(200)
+                .header("Authorization", "Bearer " + response.getToken())
+                .body(ConverterToJson.createSingleJson(response.getToken()));
     }
 }

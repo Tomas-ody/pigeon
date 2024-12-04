@@ -82,34 +82,34 @@ public class Pigeon {
     }
 
     public Pigeon(int id, String name, List<Integer> kidsId, String color, Integer fatherId, String breed, int ownerId) {
-        this(id, null, name, kidsId, color, fatherId, breed, ownerId);
+        this(id, 0, name, kidsId, color, fatherId, breed, ownerId);
     }
     public Pigeon(int id, String name, String color, Integer fatherId, String breed, int ownerId) {
-        this(id, null, name, null, color, fatherId, breed, ownerId);
+        this(id, 0, name, null, color, fatherId, breed, ownerId);
     }
     public Pigeon(int id, String name, String color, String breed, int ownerId) {
-        this(id, null, name, null, color, null, breed, ownerId);
+        this(id, 0, name, null, color, 0, breed, ownerId);
     }
     public Pigeon(int id, Integer motherId, String name, String color, String breed, int ownerId) {
-        this(id, motherId, name, null, color, null, breed, ownerId);
+        this(id, motherId, name, null, color, 0, breed, ownerId);
     }
     public Pigeon(int id, Integer motherId, String name, List<Integer> kidsId, String color, String breed, int ownerId) {
-        this(id, motherId, name, kidsId, color, null, breed, ownerId);
+        this(id, motherId, name, kidsId, color, 0, breed, ownerId);
     }
     public Pigeon(int id, Integer motherId, String name, String color, Integer fatherId, String breed, int ownerId) {
         this(id, motherId, name, null, color, fatherId, breed, ownerId);
     }
     public Pigeon(int id, String name, List<Integer> kidsId, String color, String breed, int ownerId) {
-        this(id, null, name, kidsId, color, null, breed, ownerId);
+        this(id, 0, name, kidsId, color, 0, breed, ownerId);
     }
 
     public Pigeon(int id, Integer motherId, String name, List<Integer> kidsId, String color, Integer fatherId, String breed, int ownerId) {
         this.id = id;
         this.motherId = motherId;
-        this.fatherId = fatherId;
-        this.kidsId = kidsId;
         this.name = name;
+        this.kidsId = kidsId;
         this.color = color;
+        this.fatherId = fatherId;
         this.breed = breed;
         this.ownerId = ownerId;
     }

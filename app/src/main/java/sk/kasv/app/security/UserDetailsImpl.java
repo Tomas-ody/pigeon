@@ -5,41 +5,42 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import sk.kasv.app.entity.User;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
+    private String username;
+    private boolean isAdmin;
 
-    private final User user;
-
-    public UserDetailsImpl(User user) {
-        this.user = user;
-    }
-
-    public int getId() {
-        return user.getId();
+    public UserDetailsImpl(String username, boolean isAdmin) {
+        this.username = username;
+        this.isAdmin = isAdmin;
     }
 
     public boolean isAdmin() {
-        return user.isAdmin();
+        return isAdmin;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (user.isAdmin()) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if (isAdmin) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else {
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return null; // Not needed for this example
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     @Override
