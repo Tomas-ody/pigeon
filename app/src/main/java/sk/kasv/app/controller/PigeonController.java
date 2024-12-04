@@ -12,8 +12,6 @@ import sk.kasv.app.entity.Pigeon;
 import sk.kasv.app.entity.User;
 import sk.kasv.app.service.PigeonService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/pigeons")
 public class PigeonController {
@@ -21,11 +19,13 @@ public class PigeonController {
     @Autowired
     private PigeonService pigeonService;
 
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<JSONArray> getAllPigeons() {
         return ResponseEntity.status(200).body(ConverterToJson.createListOfPigeons(pigeonService.getAllPigeons()));
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<JSONObject> getPigeonById(@PathVariable int id) {
         if (pigeonService.getPigeonById(id) != null)
@@ -33,6 +33,7 @@ public class PigeonController {
         return ResponseEntity.status(404).body(null);
     }
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<Boolean> addPigeon(@RequestBody JSONObject request, @AuthenticationPrincipal User currentUser) {
         Pigeon pigeon = new Pigeon();
@@ -45,6 +46,7 @@ public class PigeonController {
         return ResponseEntity.status(400).body(false);
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<Boolean> updatePigeon(
             @PathVariable int id,
@@ -60,6 +62,7 @@ public class PigeonController {
         return ResponseEntity.status(400).body(false);
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public void deletePigeon(@PathVariable int id, @AuthenticationPrincipal User currentUser) {
         pigeonService.deletePigeon(id, currentUser);

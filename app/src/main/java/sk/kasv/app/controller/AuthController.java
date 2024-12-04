@@ -3,11 +3,7 @@ package sk.kasv.app.controller;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import sk.kasv.app.dto.AuthRequest;
+import org.springframework.web.bind.annotation.*;
 import sk.kasv.app.dto.AuthResponse;
 import sk.kasv.app.dto.ConverterFromJson;
 import sk.kasv.app.dto.ConverterToJson;
@@ -25,6 +21,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
+    @CrossOrigin
     public ResponseEntity<JSONObject> login(@RequestBody JSONObject authRequest) {
         AuthResponse response = authService.login(
                 ConverterFromJson.getString(authRequest, "username"),
