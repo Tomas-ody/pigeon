@@ -10,8 +10,6 @@ import sk.kasv.app.dto.ConverterToJson;
 import sk.kasv.app.entity.User;
 import sk.kasv.app.service.UserService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -20,6 +18,7 @@ public class UserController {
     private UserService userService;
 
     // Endpoint to fetch all users (Admin only)
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<JSONArray> getAllUsers(@AuthenticationPrincipal User currentUser) {
         if (!currentUser.isAdmin()) {
@@ -29,6 +28,7 @@ public class UserController {
     }
 
     // Endpoint to fetch the current user's details
+    @CrossOrigin
     @GetMapping("/me")
     public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal User currentUser) {
         if (currentUser != null)
@@ -37,26 +37,29 @@ public class UserController {
     }
 
     // Endpoint to fetch a user by ID (Admin only)
+    @CrossOrigin
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id, @AuthenticationPrincipal User currentUser) {
-        if (!currentUser.isAdmin()) {
-            throw new RuntimeException("Access denied: Only admins can fetch other users' details.");
-        }
-        return userService.getUserById(id);
+    public ResponseEntity<JSONObject> getUserById(@PathVariable int id) {
+        return ResponseEntity.status(200).body(ConverterToJson.createUserJson(userService.getUserById(id)));
     }
 
     // Endpoint to register a new user
+    @CrossOrigin
     @PostMapping("/register")
     public User registerUser(@RequestBody User newUser) {
         return userService.addUser(newUser.getUsername(), newUser.getPassword(), false);
     }
 
     // Endpoint to delete a user by ID (Admin only)
+    @CrossOrigin
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id, @AuthenticationPrincipal User currentUser) {
+    public ResponseEntity<JSONObject> deleteUser(@PathVariable int id, @AuthenticationPrincipal User currentUser) {
         if (!currentUser.isAdmin()) {
-            throw new RuntimeException("Access denied: Only admins can delete users.");
+            return ResponseEntity.status(401).body(ConverterToJson.jsonMessage("Access denies: Only admins can delete users"));
         }
-        userService.deleteUserById(id);
+        if (userService.deleteUserById(id)) {
+            return ResponseEntity.status(200).body(ConverterToJson.jsonMessage("User deleted successfully"));
+        }
+        return ResponseEntity.status(400).body(ConverterToJson.jsonMessage("User not found"));
     }
 }

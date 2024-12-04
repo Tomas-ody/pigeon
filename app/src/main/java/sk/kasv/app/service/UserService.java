@@ -31,8 +31,13 @@ public class UserService {
         return userStorage.get(id);
     }
 
-    public void deleteUserById(int id) {
-        userStorage.remove(id);
+    public boolean deleteUserById(int id) {
+        if (getUserById(id) != null) {
+            userStorage.remove(id);
+            return true;
+        }
+        return false;
+
     }
 
     public User addUser(String username, String password, boolean role) {
