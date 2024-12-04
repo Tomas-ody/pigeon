@@ -18,12 +18,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable) // Explicitly disable CSRF
-                .authorizeRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // Allow login and registration
-                        .requestMatchers("/users/**").hasRole("ADMIN") // Restrict user endpoints to admins
-                        .requestMatchers("/pigeons/**").permitAll() // Require authentication for pigeons
-                        .anyRequest().authenticated()
-                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
