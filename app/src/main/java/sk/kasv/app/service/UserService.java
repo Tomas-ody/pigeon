@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class UserService {
     private final Map<Integer, User> userStorage = new HashMap<>();
-    private int userIdCounter = 2;
+    private int userIdCounter = 3;
 
     public List<User> getAllUsers() {
         return new ArrayList<>(userStorage.values());
@@ -18,7 +18,8 @@ public class UserService {
     public UserService() {
         // Add a default admin and user for testing
         userStorage.put(1, new User(1, "admin", "admin", true));
-        userStorage.put(2, new User(2, "user", "user", false));
+        userStorage.put(2, new User(2, "user1", "user1", false));
+        userStorage.put(3, new User(3, "user2", "user2", false));
     }
 
     public Optional<User> findByUsername(String username) {
