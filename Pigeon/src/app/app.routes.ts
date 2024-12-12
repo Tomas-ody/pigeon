@@ -7,6 +7,7 @@ import { ListComponent } from './pigeon/list/list.component';
 
 export const routes: Routes = [
     {path: 'users', loadChildren: () => import("./user/user.module").then(m => m.UserModule)},
+    {path: 'users', redirectTo: 'users', pathMatch: "full"}
 
 
 ];

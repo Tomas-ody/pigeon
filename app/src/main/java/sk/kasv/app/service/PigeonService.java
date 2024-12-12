@@ -12,6 +12,18 @@ public class PigeonService {
     private final Map<Integer, Pigeon> pigeonStorage = new HashMap<>();
     private int pigeonIdCounter = 5;
 
+    public PigeonService() {
+        List<Integer> list1 = new ArrayList<>();
+        list1.add(2);
+        pigeonStorage.put(1, new Pigeon(1, "Miloš", list1, "red", "kuracie", 2));
+        List<Integer> list2 = new ArrayList<>();
+        list2.add(3);
+        pigeonStorage.put(2, new Pigeon(2, "Tereza", list2, "biela", 1, "laň", 2));
+        pigeonStorage.put(3, new Pigeon(3, 2, "HUfnagel", "black", "labuť", 3));
+        pigeonStorage.put(4, new Pigeon(4, "ratatui", "grey", "frost", 1));
+        pigeonStorage.put(5, new Pigeon(5, "Yogi", "brown", "speedy", 3));
+    }
+
     public List<Pigeon> getAllPigeons() {
         return new ArrayList<>(pigeonStorage.values());
     }

@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sk.kasv.app.dto.ConverterToJson;
 import sk.kasv.app.entity.User;
+import sk.kasv.app.security.UserDetailsImpl;
 import sk.kasv.app.service.UserService;
 
 @RestController
@@ -30,7 +31,9 @@ public class UserController {
     // Endpoint to fetch the current user's details
     @CrossOrigin
     @GetMapping("/me")
-    public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal User currentUser) {
+    public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal User currentUser, @RequestHeader("Authorization") String token) {
+        System.out.println("Token ->");
+        System.out.println("Token: " + token);
         if (currentUser != null)
             return ResponseEntity.status(200).body(ConverterToJson.createUserJson(currentUser));
         return ResponseEntity.status(400).body(ConverterToJson.jsonMessage("Not registered"));
