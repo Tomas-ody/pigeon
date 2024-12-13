@@ -33,10 +33,10 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal User currentUser, @RequestHeader("Authorization") String token) {
         System.out.println("Token ->");
-        System.out.println("Token: " + token);
-        if (currentUser != null)
+        //System.out.println("Token: " + token);
+        //if (currentUser != null)
             return ResponseEntity.status(200).body(ConverterToJson.createUserJson(currentUser));
-        return ResponseEntity.status(400).body(ConverterToJson.jsonMessage("Not registered"));
+        //return ResponseEntity.status(400).body(ConverterToJson.jsonMessage("Not registered"));
     }
 
     // Endpoint to fetch a user by ID (Admin only)
