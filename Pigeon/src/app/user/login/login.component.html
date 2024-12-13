@@ -1,15 +1,32 @@
-<form (ngSubmit)="onSubmit()">
-    <div>
-      <input type="text" placeholder="your login name" 
-             [(ngModel)]="auth.username" name="name"
-      >
-      <label for="floatingInput">Login name</label>
+<p>login works!</p>
+
+<div class="form-container">
+  <div class="username-container">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input
+        matInput
+        placeholder="jankohrasko"
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="password-container">
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        placeholder="jankohrasko123"
+        required
+        
+        
+      />
+    </mat-form-field>
+  </div>
+  <section>
+    <div class="example-button-row">
+      <button mat-flat-button onclick="" >Submit</button>
+      <button mat-flat-button disabled>Disabled</button>
     </div>
-    <div>
-      <input type="password" placeholder="Password"
-             [(ngModel)]="auth.password" name="password"
-      >
-      <label for="floatingPassword">Password</label>
-    </div>
-    <button type="submit">Sign in</button>
-  </form>
+  </section>
+</div>
