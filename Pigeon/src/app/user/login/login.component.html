@@ -1,1 +1,15 @@
-<p>login works!</p>
+<form (ngSubmit)="onSubmit()">
+    <div>
+      <input type="text" placeholder="your login name" 
+             [(ngModel)]="auth.username" name="name"
+      >
+      <label for="floatingInput">Login name</label>
+    </div>
+    <div>
+      <input type="password" placeholder="Password"
+             [(ngModel)]="auth.password" name="password"
+      >
+      <label for="floatingPassword">Password</label>
+    </div>
+    <button type="submit">Sign in</button>
+  </form>
