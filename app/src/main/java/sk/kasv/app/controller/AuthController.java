@@ -23,7 +23,7 @@ public class AuthController {
     @PostMapping("/login")
     @CrossOrigin
     public ResponseEntity<JSONObject> login(@RequestBody JSONObject authRequest) {
-
+        System.out.println(authRequest.toString());
         AuthResponse response = authService.login(
                 ConverterFromJson.getString(authRequest, "username"),
                 ConverterFromJson.getString(authRequest, "password")

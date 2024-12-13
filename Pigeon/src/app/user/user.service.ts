@@ -4,6 +4,7 @@ import { MessageService } from '../shared/message.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, EMPTY, map, Observable } from 'rxjs';
 import { User } from '../pigeon/entities/user';
+import { Auth } from '../pigeon/entities/auth';
 
 export const DEFAULT_NAVIGATE_AFTER_LOGIN = '';
 export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '';
@@ -59,6 +60,18 @@ export class UserService {
         return User.clone(jsonUser);  // Predpokladám, že `clone` je metóda, ktorá robí z jsonUser platný User objekt
       }), 
       catchError(err => this.errorHandling(err)) // Spracovanie chyby
+    );
+  }
+
+  login(auth: Auth): Observable<boolean> {
+    return this.http.post(this.serverUrl + "auth/login", auth, {responseType: 'text'}).pipe(
+      map(token => {
+        this.token = token;
+        this.username = auth.username;
+        this.messageService.success(`User ${auth.username} logged in successfully`);
+        return true;
+      }),
+      catchError(err => this.errorHandling(err))
     );
   }
 
