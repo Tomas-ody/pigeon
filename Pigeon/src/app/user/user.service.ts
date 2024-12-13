@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, EMPTY, map, Observable } from 'rxjs';
 import { User } from '../pigeon/entities/user';
 import { Auth } from '../pigeon/entities/auth';
+import { JwtInterceptor } from '../auth.interceptor';
 
 export const DEFAULT_NAVIGATE_AFTER_LOGIN = '';
 export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '';
@@ -54,21 +55,32 @@ export class UserService {
   }
 
   getUser(): Observable<User> {
-    return this.http.get<User>(this.serverUrl + "users/me").pipe(
-      map((jsonUser: any) => {
-        // Ak odpoveď obsahuje už objekt JSON, stačí ho priradiť k User
-        return User.clone(jsonUser);  // Predpokladám, že `clone` je metóda, ktorá robí z jsonUser platný User objekt
-      }), 
-      catchError(err => this.errorHandling(err)) // Spracovanie chyby
-    );
+    const token = localStorage.getItem("umToken");
+
+    if (!token) {
+      this.messageService.errorToast("Missing token", 'X', 100000)
+    }
+    else {
+      return this.http.get<any>(this.serverUrl + "users/me", { headers: {Authorization: token}}).pipe(
+        map((jsonUser: any) => {
+          // Ak odpoveď obsahuje už objekt JSON, stačí ho priradiť k User
+          this.messageService.successToast(this.token);
+          return User.clone(jsonUser);  // Predpokladám, že `clone` je metóda, ktorá robí z jsonUser platný User objekt
+        }), 
+        catchError(err => this.errorHandling(err)) // Spracovanie chyby
+      );
+    }
+    return this.http.get<any>(this.serverUrl + "users/me");
   }
 
   login(auth: Auth): Observable<boolean> {
     return this.http.post(this.serverUrl + "auth/login", auth, {responseType: 'text'}).pipe(
       map(token => {
+        localStorage.setItem("umToken", token)
         this.token = token;
         this.username = auth.username;
-        this.messageService.success(`User ${auth.username} logged in successfully`);
+        
+        this.messageService.successToast(localStorage.getItem("umToken") || "Nie je token", 'X', 100000);
         return true;
       }),
       catchError(err => this.errorHandling(err))
@@ -78,7 +90,7 @@ export class UserService {
   errorHandling(err: any):Observable<never> {
     if (err instanceof HttpErrorResponse) {
       if (err.status === 0) {
-        this.messageService.error("Server not accessible");
+        this.messageService.errorToast("Server not accessible", 'X', 100000);
         return EMPTY;
       }
       if (err.status >= 400 && err.status < 500) {
@@ -86,15 +98,15 @@ export class UserService {
         if (msg === "unknown token") {
           this.token = '';
           this.username = ''; 
-          this.messageService.error("Session lost, please log in again");
+          this.messageService.errorToast("Session lost, please log in again", 'X', 100000);
           this.router.navigateByUrl("/login");
           return EMPTY;
         }
-        this.messageService.error(msg);
+        this.messageService.errorToast(msg, 'X', 100000);
         return EMPTY;
       }
       // status >= 500
-      this.messageService.error("Server error, see log for details");
+      this.messageService.errorToast("Server error, see log for details", 'X', 100000);
     }
     console.error(err);
     return EMPTY;

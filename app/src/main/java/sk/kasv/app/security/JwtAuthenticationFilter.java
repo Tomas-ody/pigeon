@@ -1,5 +1,6 @@
 package sk.kasv.app.security;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,13 +21,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-
+        System.out.println("zavolalo doFilterInternal");
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-
+            System.out.println("Našlo Bearer ");
             if (jwtTokenProvider.validateToken(token)) {
+                System.out.println("token je validný");
                 String username = jwtTokenProvider.getUsername(token);
                 boolean isAdmin = jwtTokenProvider.getRole(token);
 

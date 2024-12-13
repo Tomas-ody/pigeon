@@ -31,11 +31,12 @@ public class UserController {
     // Endpoint to fetch the current user's details
     @CrossOrigin
     @GetMapping("/me")
-    public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal User currentUser, @RequestHeader("Authorization") String token) {
-        System.out.println("Token ->");
+    public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl currentUser, @RequestHeader("Authorization") String token) {
         System.out.println("Token: " + token);
-        if (currentUser != null)
+        if (currentUser != null) {
+            System.out.println("úspešne som dostal usera na FE");
             return ResponseEntity.status(200).body(ConverterToJson.createUserJson(currentUser));
+        }
         return ResponseEntity.status(400).body(ConverterToJson.jsonMessage("Not registered"));
     }
 
