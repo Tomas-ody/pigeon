@@ -1,5 +1,3 @@
-<p>login works!</p>
-
 <div class="form-container">
   <div class="username-container">
     <mat-form-field>
@@ -8,6 +6,7 @@
         matInput
         placeholder="jankohrasko"
         required
+        name="username"
       />
     </mat-form-field>
   </div>
@@ -18,15 +17,14 @@
         matInput
         placeholder="jankohrasko123"
         required
-        
-        
+        name="password"
       />
     </mat-form-field>
   </div>
   <section>
     <div class="example-button-row">
-      <button mat-flat-button onclick="" >Submit</button>
-      <button mat-flat-button disabled>Disabled</button>
+      <button type="submit" mat-flat-button onclick="login()">Submit</button>
+      
     </div>
   </section>
 </div>
