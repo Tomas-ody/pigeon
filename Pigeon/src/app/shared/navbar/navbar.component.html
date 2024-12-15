@@ -1,17 +1,25 @@
 <div class="navbar">
   <section>
       <div class="example-button-row">
-          <button mat-flat-button routerLink="/profile">Profile</button>
+          <button mat-flat-button routerLink="/users/profile" routerLinkActive="active">Profile</button>
       </div>
   </section>
   <section>
       <div class="example-button-row">
-          <button mat-flat-button routerLink="/pigeon">Pigeon</button>
+          <button mat-flat-button routerLink="/pigeon/list" routerLinkActive="active">Pigeon</button>
       </div>
   </section>
   <section>
-      <div class="example-button-row">
-          <button mat-flat-button routerLink="/logout">Logout</button>
-      </div>
+    @if(loggedIn) {
+        <div class="example-button-row">
+            <button mat-flat-button (click)="logout()">Logout</button>
+        </div>
+    } 
+    @else {
+        <div class="example-button-row">
+            <button mat-flat-button routerLink="/users/login" routerLinkActive="active">Login</button>
+        </div>
+    }
+      
   </section>
 </div>

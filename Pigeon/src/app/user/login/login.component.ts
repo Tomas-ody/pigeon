@@ -1,10 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, NgModule } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { MaterialModule } from '../../modules/material.module';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { Auth } from '../../pigeon/entities/auth';
-import { PigeonService } from '../../pigeon/pigeon.service';
 
 
 @Component({
@@ -28,6 +27,7 @@ export class LoginComponent {
       next: success => {
         if (success) {
           // idem na autorizovanu sekciu
+          this.authService.setLoggedIn(true);
           this.router.navigateByUrl(this.usersService.navigateAfterLogin);
         } 
       }

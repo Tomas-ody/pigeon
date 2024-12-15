@@ -5,9 +5,10 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, EMPTY, map, Observable, tap } from 'rxjs';
 import { User } from '../pigeon/entities/user';
 import { Auth } from '../pigeon/entities/auth';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 
-export const DEFAULT_NAVIGATE_AFTER_LOGIN = '';
-export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '';
+export const DEFAULT_NAVIGATE_AFTER_LOGIN = '/pigeon/list';
+export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '/users/login';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,8 @@ export class UserService {
   serverUrl = "http://localhost:8080/";
   //private loggedUserSubject = new BehaviorSubject(this.username);
   navigateAfterLogin = DEFAULT_NAVIGATE_AFTER_LOGIN;
-/*
-  get token(): string {
-    if (typeof window !== 'undefined' && localStorage) {
-      return localStorage.getItem('umToken') || '';
-    }
-    return ''; // Predvolené, keď nie je dostupné localStorage
-  }*/
+  loggedIn: boolean = false;
+
 
     get token(): string {
       return localStorage.getItem('umToken') || '';
@@ -39,9 +35,9 @@ export class UserService {
     if (typeof window !== 'undefined' && localStorage) {
       if (value) {
         try {
-          const parsedValue = JSON.parse(value); // Parsuje JSON reťazec na objekt
+          const parsedValue = JSON.parse(value); 
           if (parsedValue.token) {
-            localStorage.setItem('umToken', parsedValue.token); // Uloží iba hodnotu tokenu
+            localStorage.setItem('umToken', parsedValue.token); 
           } else {
             console.error('Invalid token format');
           }
@@ -49,24 +45,10 @@ export class UserService {
           console.error('Error parsing token:', e);
         }
       } else {
-        localStorage.removeItem('umToken'); // Odstráni token z localStorage
+        localStorage.removeItem('umToken'); 
       }
     }
   }
-/*
-  get username(): string {
-    return localStorage.getItem('umUsername') || '';
-  }
-
-  set username(value: string) {
-    if (value) {
-      localStorage.setItem('umUsername', value);
-    } else {
-      localStorage.removeItem('umUsername');
-    }
-    this.loggedUserSubject.next(value);
-  }
-*/
   getUser(): Observable<User> {
     const token = localStorage.getItem("umToken");
 
@@ -77,7 +59,6 @@ export class UserService {
 
       return this.http.get<any>(this.serverUrl + "users/me", { headers: {Authorization: token}}).pipe(
         map((jsonUser: any) => {
-          this.messageService.successToast("Login has been successful");
           console.log(jsonUser);
           return User.clone(jsonUser);
         }), 
@@ -92,12 +73,12 @@ export class UserService {
   login(auth: Auth): Observable<boolean> {
     return this.http.post(this.serverUrl + "auth/login", auth, {responseType: 'text'}).pipe(
       map(token => {
-        //localStorage.setItem("umToken", token)
         this.token = token;
         //this.username = auth.username;
         console.log("Bearer " + localStorage.getItem("umToken"));
-        
-        this.messageService.successToast(token || "Nie je token", 'X', 100000);
+
+        this.loggedIn = true;
+        this.messageService.successToast("Login has been successful", 'X', 2000);
         return true;
       }),
       catchError(err => this.errorHandling(err))
@@ -108,6 +89,7 @@ export class UserService {
     
       tap(() => {
         this.token = '';
+        localStorage.removeItem("umToken");
         //this.username = ''; 
       }),
       catchError(err => this.errorHandling(err))

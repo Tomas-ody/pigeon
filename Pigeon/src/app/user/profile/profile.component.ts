@@ -4,6 +4,7 @@ import { User } from '../../pigeon/entities/user';
 import { HttpClient } from '@angular/common/http';
 import { PigeonService } from '../../pigeon/pigeon.service';
 import { Pigeon } from '../../pigeon/entities/pigeon';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,15 +18,22 @@ export class ProfileComponent implements OnInit {
   userPigeons?: Pigeon[];
 
   constructor (
-    //private userService: UserService,
+    private userService: UserService,
     private http: HttpClient,
-    //private pigeonService: PigeonService
+    private pigeonService: PigeonService,
+    private authService: AuthService
   ) { }
-   
-  userService = inject(UserService);
-  pigeonService = inject(PigeonService);
+  
 
   ngOnInit(): void {
+    this.authService.loggedIn$.subscribe((status) => {
+      if (!status) {
+        console.log(status)
+        this.user = undefined;
+        this.userPigeons = undefined;
+      }
+    });
+
     const token = localStorage.getItem("umToken");
     this.userService.getUser().subscribe({
       next: (user: User) => {
