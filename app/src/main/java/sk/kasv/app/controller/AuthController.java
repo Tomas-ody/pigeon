@@ -10,6 +10,8 @@ import sk.kasv.app.dto.ConverterToJson;
 import sk.kasv.app.service.AuthService;
 import sk.kasv.app.service.UserService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -22,7 +24,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @CrossOrigin
-    public ResponseEntity<String> login(@RequestBody JSONObject authRequest) {
+    public ResponseEntity<JSONObject> login(@RequestBody JSONObject authRequest) {
         System.out.println(authRequest.toString());
         AuthResponse response = authService.login(
                 ConverterFromJson.getString(authRequest, "username"),
@@ -30,10 +32,10 @@ public class AuthController {
         );
 
         if (response == null) {
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).body(ConverterToJson.jsonMessage("unknown token"));
         }
         return ResponseEntity.status(200)
                 .header("Authorization", "Bearer " + response.getToken())
-                .body(response.getToken());
+                .body(ConverterToJson.createSingleJson(response.getToken()));
     }
 }

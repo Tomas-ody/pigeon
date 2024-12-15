@@ -1,1 +1,13 @@
-<p>list works!</p>
+@if(pigeons != null) {
+        
+    @for (pigeon of pigeons; track pigeon.name) {
+      <ul>
+            <li>Name: {{pigeon.name}}</li>
+            <li>Breed: {{pigeon.breed}}</li>
+            <li>Color: {{pigeon.color}}</li>
+            <li>OwnerId: {{pigeon.ownerId}}</li>
+            <li>FatherId: {{pigeon.fatherId}}</li>
+            <li>MotherId: {{pigeon.motherId}}</li>
+      </ul>
+    }
+}

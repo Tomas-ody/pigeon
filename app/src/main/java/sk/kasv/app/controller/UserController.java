@@ -33,7 +33,9 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl currentUser, @RequestHeader("Authorization") String token) {
         System.out.println("Token: " + token);
+
         if (currentUser != null) {
+            System.out.println(currentUser.getUsername() + " " + currentUser.getPassword());
             System.out.println("úspešne som dostal usera na FE");
             return ResponseEntity.status(200).body(ConverterToJson.createUserJson(currentUser));
         }

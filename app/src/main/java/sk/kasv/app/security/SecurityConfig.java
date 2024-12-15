@@ -17,10 +17,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable) // Explicitly disable CSRF
+        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/me").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers("/users/me", "/auth/login", "/pigeons/list", "/pigeons/owner").permitAll()
+                        .anyRequest().permitAll())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );

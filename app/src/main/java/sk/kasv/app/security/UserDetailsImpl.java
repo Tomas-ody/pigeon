@@ -12,10 +12,12 @@ import java.util.List;
 public class UserDetailsImpl implements UserDetails {
     private String username;
     private boolean isAdmin;
+    private int id;
 
-    public UserDetailsImpl(String username, boolean isAdmin) {
+    public UserDetailsImpl(String username, boolean isAdmin, int id) {
         this.username = username;
         this.isAdmin = isAdmin;
+        this.id = id;
     }
 
     public boolean isAdmin() {
@@ -33,6 +35,16 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
+    public String getAuthority() {
+        String authority = "";
+        if (isAdmin) {
+            authority = "ROLE_ADMIN";
+        } else {
+            authority = "ROLE_USER";
+        }
+        return authority;
+    }
+
     @Override
     public String getPassword() {
         return null; // Not needed for this example
@@ -42,6 +54,8 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+    public int getId() { return  id; }
 
     @Override
     public boolean isAccountNonExpired() {

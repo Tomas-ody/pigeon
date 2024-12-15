@@ -42,20 +42,23 @@ public class ConverterToJson {
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.put("username", user.getUsername());
-        jsonObject.put("password", user.getPassword());
+        jsonObject.put("role", user.getAuthority());
 
         return jsonObject;
     }
 
-    public static JSONArray createListOfPigeons(List<Pigeon> list) {
+    public static JSONObject createListOfPigeons(List<Pigeon> list) {
 
         JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
 
         for (Pigeon pigeon : list) {
             jsonArray.add(createPigeonJson(pigeon));
         }
 
-        return jsonArray;
+        jsonObject.put("data", jsonArray);
+
+        return jsonObject;
     }
 
     public static JSONArray createListOfUsers(List<User> list) {

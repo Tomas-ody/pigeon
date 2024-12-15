@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 
 
+
 @NgModule({
   declarations: [
     
@@ -15,7 +16,6 @@ import { ProfileComponent } from './profile/profile.component';
     UserRoutingModule,
     LoginComponent,
     ProfileComponent,
-    
-  ],
+  ]
 })
 export class UserModule { }

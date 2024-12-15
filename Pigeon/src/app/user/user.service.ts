@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from '../shared/message.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, catchError, EMPTY, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, map, Observable, tap } from 'rxjs';
 import { User } from '../pigeon/entities/user';
 import { Auth } from '../pigeon/entities/auth';
-import { JwtInterceptor } from '../auth.interceptor';
 
 export const DEFAULT_NAVIGATE_AFTER_LOGIN = '';
 export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '';
@@ -14,10 +13,6 @@ export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '';
   providedIn: 'root'
 })
 export class UserService {
-  users: User[] = [ 
-    new User("Jano", "jano@jano.sk", 1, true),
-    new User("FeroFService", "fero@jano.sk", 2, false),
-  ];
 
   constructor(
     private http: HttpClient,
@@ -26,21 +21,39 @@ export class UserService {
 ) { }
 
   serverUrl = "http://localhost:8080/";
-  private loggedUserSubject = new BehaviorSubject(this.username);
+  //private loggedUserSubject = new BehaviorSubject(this.username);
   navigateAfterLogin = DEFAULT_NAVIGATE_AFTER_LOGIN;
-
+/*
   get token(): string {
-    return localStorage.getItem('umToken') || '';
-  }
+    if (typeof window !== 'undefined' && localStorage) {
+      return localStorage.getItem('umToken') || '';
+    }
+    return ''; // Predvolené, keď nie je dostupné localStorage
+  }*/
 
-  set token(value: string) {
-    if (value) {
-      localStorage.setItem('umToken', value);
-    } else {
-      localStorage.removeItem('umToken');
+    get token(): string {
+      return localStorage.getItem('umToken') || '';
+    }
+  
+  set token(value: string | null) {
+    if (typeof window !== 'undefined' && localStorage) {
+      if (value) {
+        try {
+          const parsedValue = JSON.parse(value); // Parsuje JSON reťazec na objekt
+          if (parsedValue.token) {
+            localStorage.setItem('umToken', parsedValue.token); // Uloží iba hodnotu tokenu
+          } else {
+            console.error('Invalid token format');
+          }
+        } catch (e) {
+          console.error('Error parsing token:', e);
+        }
+      } else {
+        localStorage.removeItem('umToken'); // Odstráni token z localStorage
+      }
     }
   }
-
+/*
   get username(): string {
     return localStorage.getItem('umUsername') || '';
   }
@@ -53,7 +66,7 @@ export class UserService {
     }
     this.loggedUserSubject.next(value);
   }
-
+*/
   getUser(): Observable<User> {
     const token = localStorage.getItem("umToken");
 
@@ -61,30 +74,44 @@ export class UserService {
       this.messageService.errorToast("Missing token", 'X', 100000)
     }
     else {
+
       return this.http.get<any>(this.serverUrl + "users/me", { headers: {Authorization: token}}).pipe(
         map((jsonUser: any) => {
-          // Ak odpoveď obsahuje už objekt JSON, stačí ho priradiť k User
-          this.messageService.successToast(this.token);
-          return User.clone(jsonUser);  // Predpokladám, že `clone` je metóda, ktorá robí z jsonUser platný User objekt
+          this.messageService.successToast("Login has been successful");
+          console.log(jsonUser);
+          return User.clone(jsonUser);
         }), 
-        catchError(err => this.errorHandling(err)) // Spracovanie chyby
+        catchError(err => this.errorHandling(err))
       );
     }
     return this.http.get<any>(this.serverUrl + "users/me");
   }
 
+  
+
   login(auth: Auth): Observable<boolean> {
     return this.http.post(this.serverUrl + "auth/login", auth, {responseType: 'text'}).pipe(
       map(token => {
-        localStorage.setItem("umToken", token)
+        //localStorage.setItem("umToken", token)
         this.token = token;
-        this.username = auth.username;
+        //this.username = auth.username;
+        console.log("Bearer " + localStorage.getItem("umToken"));
         
-        this.messageService.successToast(localStorage.getItem("umToken") || "Nie je token", 'X', 100000);
+        this.messageService.successToast(token || "Nie je token", 'X', 100000);
         return true;
       }),
       catchError(err => this.errorHandling(err))
     );
+  }
+
+  logout(): void {
+    
+      tap(() => {
+        this.token = '';
+        //this.username = ''; 
+      }),
+      catchError(err => this.errorHandling(err))
+    
   }
 
   errorHandling(err: any):Observable<never> {
@@ -97,7 +124,7 @@ export class UserService {
         const msg = err.error.errorMessage || JSON.parse(err.error).errorMessage;
         if (msg === "unknown token") {
           this.token = '';
-          this.username = ''; 
+          //this.username = ''; 
           this.messageService.errorToast("Session lost, please log in again", 'X', 100000);
           this.router.navigateByUrl("/login");
           return EMPTY;

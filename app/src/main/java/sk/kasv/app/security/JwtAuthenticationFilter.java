@@ -31,8 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.out.println("token je validný");
                 String username = jwtTokenProvider.getUsername(token);
                 boolean isAdmin = jwtTokenProvider.getRole(token);
+                int id = jwtTokenProvider.getId(token);
 
-                UserDetailsImpl userDetails = new UserDetailsImpl(username, isAdmin);
+                UserDetailsImpl userDetails = new UserDetailsImpl(username, isAdmin, id);
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
@@ -41,6 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // Add attributes to request for controllers
                 request.setAttribute("username", username);
                 request.setAttribute("isAdmin", isAdmin);
+                //request.setAttribute("id", id);
             }
         }
 

@@ -6,6 +6,8 @@ import sk.kasv.app.entity.User;
 import sk.kasv.app.security.JwtTokenProvider;
 import sk.kasv.app.dto.AuthResponse;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
 
@@ -16,14 +18,13 @@ public class AuthService {
     private JwtTokenProvider jwtTokenProvider;
 
     public AuthResponse login(String username, String password) {
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+        Optional<User> user = userService.findByUsername(username);
 
-        if (!user.getPassword().equals(password)) {
-            throw new RuntimeException("Invalid username or password");
+        if (user.isEmpty() || !user.get().getPassword().equals(password)) {
+            return null;
         }
-
-        String token = jwtTokenProvider.createToken(user.getUsername(), user.isAdmin()
+        System.out.println("Id of user is: " + user.get().getId());
+        String token = jwtTokenProvider.createToken(user.get().getUsername(), user.get().isAdmin(), user.get().getId()
         );
         return new AuthResponse(token);
     }
