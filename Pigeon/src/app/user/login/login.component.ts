@@ -4,6 +4,7 @@ import { MaterialModule } from '../../modules/material.module';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { Auth } from '../../pigeon/entities/auth';
+import { PigeonService } from '../../pigeon/pigeon.service';
 
 
 @Component({

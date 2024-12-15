@@ -10,6 +10,7 @@ import sk.kasv.app.dto.ConverterFromJson;
 import sk.kasv.app.dto.ConverterToJson;
 import sk.kasv.app.entity.Pigeon;
 import sk.kasv.app.entity.User;
+import sk.kasv.app.security.UserDetailsImpl;
 import sk.kasv.app.service.PigeonService;
 
 @RestController
@@ -20,13 +21,20 @@ public class PigeonController {
     private PigeonService pigeonService;
 
     @CrossOrigin
-    @GetMapping
-    public ResponseEntity<JSONArray> getAllPigeons() {
+    @GetMapping("/list")
+    public ResponseEntity<JSONObject> getAllPigeons() {
+        System.out.println("WEB zavolal holuby");
         return ResponseEntity.status(200).body(ConverterToJson.createListOfPigeons(pigeonService.getAllPigeons()));
     }
 
     @CrossOrigin
-    @GetMapping("/{id}")
+    @GetMapping("/owner")
+    public ResponseEntity<JSONObject> getAllPigeonsOfOwner(@AuthenticationPrincipal UserDetailsImpl currentUser, @RequestHeader("Authorization") String token) {
+        return ResponseEntity.status(200).body(ConverterToJson.createListOfPigeons(pigeonService.getPigeonsByOwner(currentUser.getId())));
+    }
+
+    @CrossOrigin
+    @GetMapping("/pigeon/{id}")
     public ResponseEntity<JSONObject> getPigeonById(@PathVariable int id) {
         if (pigeonService.getPigeonById(id) != null)
             return ResponseEntity.status(200).body(ConverterToJson.createPigeonJson(pigeonService.getPigeonById(id)));

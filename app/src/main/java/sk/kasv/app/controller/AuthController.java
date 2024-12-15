@@ -10,6 +10,8 @@ import sk.kasv.app.dto.ConverterToJson;
 import sk.kasv.app.service.AuthService;
 import sk.kasv.app.service.UserService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -30,7 +32,7 @@ public class AuthController {
         );
 
         if (response == null) {
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).body(ConverterToJson.jsonMessage("unknown token"));
         }
         return ResponseEntity.status(200)
                 .header("Authorization", "Bearer " + response.getToken())

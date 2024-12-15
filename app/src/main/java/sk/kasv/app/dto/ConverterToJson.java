@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import sk.kasv.app.entity.Pigeon;
 import sk.kasv.app.entity.User;
+import sk.kasv.app.security.UserDetailsImpl;
 
 import java.util.List;
 
@@ -36,15 +37,28 @@ public class ConverterToJson {
         return jsonObject;
     }
 
-    public static JSONArray createListOfPigeons(List<Pigeon> list) {
+    public static JSONObject createUserJson(UserDetailsImpl user) {
+
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("username", user.getUsername());
+        jsonObject.put("role", user.getAuthority());
+
+        return jsonObject;
+    }
+
+    public static JSONObject createListOfPigeons(List<Pigeon> list) {
 
         JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
 
         for (Pigeon pigeon : list) {
             jsonArray.add(createPigeonJson(pigeon));
         }
 
-        return jsonArray;
+        jsonObject.put("data", jsonArray);
+
+        return jsonObject;
     }
 
     public static JSONArray createListOfUsers(List<User> list) {

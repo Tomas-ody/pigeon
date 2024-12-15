@@ -7,6 +7,21 @@
   }
 
   <div>
-    <p>{{user?.name}}</p>
-    <p>{{user?.password}}</p>
+    <p>{{user?.username}}</p>
+    <p>{{user?.role}}</p>
   </div>
+  <div>
+    <h3>Tvoji holuby:</h3>
+    @if(userPigeons != null) {
+        
+            @for (pigeon of userPigeons; track pigeon.name) {
+              <ul>
+                    <li>Name: {{pigeon.name}}</li>
+                    <li>Breed: {{pigeon.breed}}</li>
+                    <li>Color: {{pigeon.color}}</li>
+                    <li>OwnerId: {{pigeon.ownerId}}</li>
+                    <li>FatherId: {{pigeon.fatherId}}</li>
+                    <li>MotherId: {{pigeon.motherId}}</li>
+              </ul>
+            }
+      }

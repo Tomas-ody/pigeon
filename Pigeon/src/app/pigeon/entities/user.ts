@@ -3,21 +3,21 @@ export class User {
 
     public static clone(user: User) : User {
         return new User(
-            user.name,
+            user.username,
             user.password,
             user.id,
-            user.admin
+            user.role
         )
     }
 
     constructor(
-        public name: String,
+        public username: String,
         public password: String,
         public id: number,
-        public admin: boolean
+        public role: String
     ) {}
 
     toString(): string {
-        return "name: " + this.name + " is admin -> " + this.admin;
+        return "name: " + this.username + " is admin -> " + this.role;
     }
 }
