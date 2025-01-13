@@ -46,6 +46,24 @@ public class JwtTokenProvider {
         }
         return 0;
     }
+    public String getPhone(String token) {
+        List<User> list = userService.getAllUsers();
+        for (User user : list) {
+            if (Objects.equals(user.getUsername(), getUsername(token))) {
+                return user.getPhone();
+            }
+        }
+        return "";
+    }
+    public String getEmail(String token) {
+        List<User> list = userService.getAllUsers();
+        for (User user : list) {
+            if (Objects.equals(user.getUsername(), getUsername(token))) {
+                return user.getEmail();
+            }
+        }
+        return "";
+    }
 
     public boolean validateToken(String token) {
         try {

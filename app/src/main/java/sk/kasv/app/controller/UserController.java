@@ -48,14 +48,14 @@ public class UserController {
     public ResponseEntity<JSONObject> getUserById(@PathVariable int id) {
         return ResponseEntity.status(200).body(ConverterToJson.createUserJson(userService.getUserById(id)));
     }
-
+/*
     // Endpoint to register a new user
     @CrossOrigin
     @PostMapping("/register")
     public User registerUser(@RequestBody User newUser) {
         return userService.addUser(newUser.getUsername(), newUser.getPassword(), false);
     }
-
+*/
     // Endpoint to delete a user by ID (Admin only)
     @CrossOrigin
     @DeleteMapping("/{id}")

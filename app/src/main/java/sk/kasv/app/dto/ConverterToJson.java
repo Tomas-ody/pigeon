@@ -43,6 +43,8 @@ public class ConverterToJson {
 
         jsonObject.put("username", user.getUsername());
         jsonObject.put("role", user.getAuthority());
+        jsonObject.put("email", user.getEmail());
+        jsonObject.put("phone", user.getPhone());
 
         return jsonObject;
     }

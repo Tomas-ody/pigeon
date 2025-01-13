@@ -17,9 +17,9 @@ public class UserService {
 
     public UserService() {
         // Add a default admin and user for testing
-        userStorage.put(1, new User(1, "admin", "admin", true));
-        userStorage.put(2, new User(2, "user1", "user1", false));
-        userStorage.put(3, new User(3, "user2", "user2", false));
+        userStorage.put(1, new User(1, "admin", "admin", true, "admin@pigeon.sk", "+421545878966"));
+        userStorage.put(2, new User(2, "user1", "user1", false, "user1@gmail.com", "+421554887996"));
+        userStorage.put(3, new User(3, "user2", "user2", false, "user2@gmail.com", "+421754214888"));
     }
 
     public Optional<User> findByUsername(String username) {
@@ -40,11 +40,11 @@ public class UserService {
         return false;
 
     }
-
+/*
     public User addUser(String username, String password, boolean role) {
         int userId = ++userIdCounter;
         User user = new User(userId, username, password, role);
         userStorage.put(userId, user);
         return user;
-    }
+    }*/
 }

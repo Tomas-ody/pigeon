@@ -32,8 +32,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String username = jwtTokenProvider.getUsername(token);
                 boolean isAdmin = jwtTokenProvider.getRole(token);
                 int id = jwtTokenProvider.getId(token);
+                String email = jwtTokenProvider.getEmail(token);
+                String phone = jwtTokenProvider.getPhone(token);
 
-                UserDetailsImpl userDetails = new UserDetailsImpl(username, isAdmin, id);
+                UserDetailsImpl userDetails = new UserDetailsImpl(username, isAdmin, id, email, phone);
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 

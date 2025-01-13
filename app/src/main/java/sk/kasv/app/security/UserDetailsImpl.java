@@ -13,11 +13,21 @@ public class UserDetailsImpl implements UserDetails {
     private String username;
     private boolean isAdmin;
     private int id;
+    private String email;
+    private String phone;
 
     public UserDetailsImpl(String username, boolean isAdmin, int id) {
         this.username = username;
         this.isAdmin = isAdmin;
         this.id = id;
+    }
+
+    public UserDetailsImpl(String username, boolean isAdmin, int id, String email, String phone) {
+        this.username = username;
+        this.isAdmin = isAdmin;
+        this.id = id;
+        this.email = email;
+        this.phone = phone;
     }
 
     public boolean isAdmin() {
@@ -53,6 +63,14 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public int getId() { return  id; }

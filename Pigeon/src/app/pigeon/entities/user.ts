@@ -6,7 +6,9 @@ export class User {
             user.username,
             user.password,
             user.id,
-            user.role
+            user.role,
+            user.email,
+            user.phone
         )
     }
 
@@ -14,7 +16,9 @@ export class User {
         public username: String,
         public password: String,
         public id: number,
-        public role: String
+        public role: String,
+        public email: String,
+        public phone: String
     ) {}
 
     toString(): string {
