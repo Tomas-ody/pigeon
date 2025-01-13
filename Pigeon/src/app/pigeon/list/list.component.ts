@@ -19,7 +19,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     //const token = localStorage.getItem("umToken");
-    this.pigeonService.getPigeons(/*token*/).subscribe({
+    this.pigeonService.getPigeons().subscribe({
       next: (pigeons: Pigeon[]) => {
         this.pigeons = pigeons;
         this.showError = false;

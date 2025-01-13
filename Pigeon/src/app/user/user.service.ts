@@ -30,7 +30,7 @@ export class UserService {
 
 
     get token(): string {
-      return localStorage.getItem('umToken') || '';
+      return localStorage.getItem('Token') || '';
     }
   
   set token(value: string | null) {
@@ -39,7 +39,7 @@ export class UserService {
         try {
           const parsedValue = JSON.parse(value); 
           if (parsedValue.token) {
-            localStorage.setItem('umToken', parsedValue.token); 
+            localStorage.setItem('Token', parsedValue.token); 
           } else {
             console.error('Invalid token format');
           }
@@ -47,12 +47,12 @@ export class UserService {
           console.error('Error parsing token:', e);
         }
       } else {
-        localStorage.removeItem('umToken'); 
+        localStorage.removeItem('Token'); 
       }
     }
   }
   getUser(): Observable<User> {
-    const token = localStorage.getItem("umToken");
+    const token = localStorage.getItem("Token");
 
     if (!token) {
       this.messageService.errorToast("Missing token", 'X', 100000)
@@ -77,7 +77,7 @@ export class UserService {
       map(token => {
         this.token = token;
         //this.username = auth.username;
-        console.log("Bearer " + localStorage.getItem("umToken"));
+        console.log("Bearer " + localStorage.getItem("Token"));
 
        
         this.messageService.successToast("Login has been successful", 'X', 2000);
@@ -88,7 +88,7 @@ export class UserService {
   }
 
   logout(): void {
-    localStorage.removeItem("umToken");
+    localStorage.removeItem("Token");
     this.authService.setLoggedIn(false);
     this.token = "";
     

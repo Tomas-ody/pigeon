@@ -34,7 +34,7 @@ export class AddNewComponent {
 
   onSubmit(): void {
       this.pigeon.kidsId = this.kidsId;
-      const token = localStorage.getItem("umToken");
+      const token = localStorage.getItem("Token");
       this.pigeonService.sendAddNewPigeon(this.pigeon, token).subscribe({
         next: success => {
           if (success) {

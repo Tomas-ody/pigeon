@@ -2,7 +2,7 @@ import { HttpEvent, HttpInterceptorFn } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export const JwtInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('umToken');
+  const token = localStorage.getItem('Token');
 
   if (token) {
     console.log('token');

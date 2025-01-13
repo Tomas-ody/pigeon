@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
         this.userPigeons = undefined;
       } else {
         console.log(status)
-        const token = localStorage.getItem("umToken");
+        const token = localStorage.getItem("Token");
         this.userService.getUser().subscribe({
           next: (user: User) => {
             console.log("userService.getUser")
