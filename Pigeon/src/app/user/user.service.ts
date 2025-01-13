@@ -6,6 +6,7 @@ import { BehaviorSubject, catchError, EMPTY, map, Observable, tap } from 'rxjs';
 import { User } from '../pigeon/entities/user';
 import { Auth } from '../pigeon/entities/auth';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { AuthService } from './auth.service';
 
 export const DEFAULT_NAVIGATE_AFTER_LOGIN = '/pigeon/list';
 export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '/users/login';
@@ -18,13 +19,14 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
 ) { }
 
   serverUrl = "http://localhost:8080/";
   //private loggedUserSubject = new BehaviorSubject(this.username);
   navigateAfterLogin = DEFAULT_NAVIGATE_AFTER_LOGIN;
-  loggedIn: boolean = false;
+  //loggedIn: boolean = false;
 
 
     get token(): string {
@@ -77,7 +79,7 @@ export class UserService {
         //this.username = auth.username;
         console.log("Bearer " + localStorage.getItem("umToken"));
 
-        this.loggedIn = true;
+       
         this.messageService.successToast("Login has been successful", 'X', 2000);
         return true;
       }),
@@ -86,13 +88,9 @@ export class UserService {
   }
 
   logout(): void {
-    
-      tap(() => {
-        this.token = '';
-        localStorage.removeItem("umToken");
-        //this.username = ''; 
-      }),
-      catchError(err => this.errorHandling(err))
+    localStorage.removeItem("umToken");
+    this.authService.setLoggedIn(false);
+    this.token = "";
     
   }
 

@@ -15,6 +15,16 @@ public class ConverterFromJson {
         return (int)data.get(target);
     }
 
+    public static Integer getInt(Object value) {
+        if (value instanceof Integer) {
+            return (Integer) value;
+        } else if (value instanceof String) {
+            return Integer.parseInt((String) value);
+        } else {
+            throw new IllegalArgumentException("Value cannot be converted to Integer: " + value);
+        }
+    }
+
     public static List<Integer> getList(JSONObject data, String target) {
         return (List<Integer>)data.get(target);
     }

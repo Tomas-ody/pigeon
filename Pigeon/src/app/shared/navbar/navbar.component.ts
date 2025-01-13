@@ -6,7 +6,7 @@ import { AuthService } from '../../user/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [MaterialModule, RouterLink, RouterLinkActive],
+  imports: [MaterialModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -24,19 +24,12 @@ export class NavbarComponent implements OnInit {
     this.authService.loggedIn$.subscribe((status) => {
       this.loggedIn = status; 
     });
-
-    if (localStorage.getItem("umToken") != null) {
-      this.loggedIn = this.userService.loggedIn;
-    }
-    else {
-      this.loggedIn = this.userService.loggedIn;
-    };
   }
 
   logout() {
     this.userService.logout();
-    this.loggedIn == this.userService.loggedIn;
-    this.authService.setLoggedIn(false);
+   // this.loggedIn == this.userService.loggedIn;
+   // this.authService.setLoggedIn(false);
     this.router.navigateByUrl("/users/login");
   }
 }

@@ -41,17 +41,14 @@ public class JwtTokenProvider {
         List<User> list = userService.getAllUsers();
         for (User user : list) {
             if (Objects.equals(user.getUsername(), getUsername(token))) {
-                System.out.println("ID je " + user.getId());
                 return user.getId();
             }
         }
-        System.out.println("nie je ID");
         return 0;
     }
 
     public boolean validateToken(String token) {
         try {
-            System.out.println("validateToken: " + token);
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
         } catch (Exception e) {

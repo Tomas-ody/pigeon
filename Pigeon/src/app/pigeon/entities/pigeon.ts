@@ -17,11 +17,11 @@ export class Pigeon {
         public id: number,
         public motherId: number,
         public fatherId: number,
-        public kidsId: Array<number>[],
+        public kidsId: Array<number>,
         public name: string,
         public color: string,
         public breed: string,
-        public ownerId: string
+        public ownerId: number
     ) {}
 
     toString(): string {
