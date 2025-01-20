@@ -8,6 +8,8 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../modules/material.module';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { subscribe } from 'diagnostics_channel';
+import { MessageService } from '../../shared/message.service';
 
 @Component({
   selector: 'app-profile',
@@ -27,6 +29,7 @@ export class ProfileComponent implements OnInit {
     private pigeonService: PigeonService,
     private authService: AuthService,
     private router: Router,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -50,18 +53,22 @@ export class ProfileComponent implements OnInit {
           }
           
         });
-        this.pigeonService.getUserPigeons(token).subscribe({
-          next: (pigeons: Pigeon[]) => {
-            this.userPigeons = pigeons;
-            console.log(pigeons);
-            this.showError = false;
-          },
-          error: err => {
-            console.log("Chyba: ", err);
-            this.showError = true;
-          }
-        });
+        
+        this.loadDataPigeons(token);
+      }
+    });
+  }
 
+  loadDataPigeons(token: any) {
+    this.pigeonService.getUserPigeons(token).subscribe({
+      next: (pigeons: Pigeon[]) => {
+        this.userPigeons = pigeons;
+        console.log(pigeons);
+        this.showError = false;
+      },
+      error: err => {
+        console.log("Chyba: ", err);
+        this.showError = true;
       }
     });
   }
@@ -70,7 +77,11 @@ export class ProfileComponent implements OnInit {
     this.pigeonService.editPigeon(pigeon);
   }
 
-  deletePigeon() {
-
+  deletePigeon(pigeonId: number) {
+    console.log("click")
+    this.pigeonService.deletePigeon(pigeonId).subscribe(() => {
+      this.loadDataPigeons(localStorage.getItem("Token"));
+      this.messageService.successToast("Pigeon deleted successfully", "X", 2000);
+    });
   }
 }
