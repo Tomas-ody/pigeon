@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MaterialModule } from '../../modules/material.module';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { subscribe } from 'diagnostics_channel';
+import { MessageService } from '../../shared/message.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
     private pigeonService: PigeonService,
     private authService: AuthService,
     private router: Router,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -79,6 +81,7 @@ export class ProfileComponent implements OnInit {
     console.log("click")
     this.pigeonService.deletePigeon(pigeonId).subscribe(() => {
       this.loadDataPigeons(localStorage.getItem("Token"));
+      this.messageService.successToast("Pigeon deleted successfully", "X", 2000);
     });
   }
 }
