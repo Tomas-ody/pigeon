@@ -5,6 +5,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { ListComponent } from './list/list.component';
 
 
 
@@ -17,7 +18,8 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
     UserRoutingModule,
     LoginComponent,
     ProfileComponent,
-    NavbarComponent
+    NavbarComponent,
+    ListComponent
   ]
 })
 export class UserModule { }

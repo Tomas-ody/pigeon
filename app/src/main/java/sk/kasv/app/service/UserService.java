@@ -5,14 +5,17 @@ import sk.kasv.app.entity.User;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     private final Map<Integer, User> userStorage = new HashMap<>();
     private int userIdCounter = 3;
 
-    public List<User> getAllUsers() {
-        return new ArrayList<>(userStorage.values());
+    public List<User> getAllUsers(int id) {
+        return userStorage.values().stream()
+                .filter(user -> user.getId() != id)
+                .collect(Collectors.toList());
     }
 
     public UserService() {

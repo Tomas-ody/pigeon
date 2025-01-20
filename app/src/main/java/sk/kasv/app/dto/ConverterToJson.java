@@ -33,6 +33,9 @@ public class ConverterToJson {
         jsonObject.put("id", user.getId());
         jsonObject.put("username", user.getUsername());
         jsonObject.put("password", user.getPassword());
+        jsonObject.put("email", user.getEmail());
+        jsonObject.put("phone", user.getPhone());
+        jsonObject.put("role", (user.isAdmin()) ? "ROLE_ADMIN" : "ROLE_USER");
 
         return jsonObject;
     }
@@ -63,15 +66,18 @@ public class ConverterToJson {
         return jsonObject;
     }
 
-    public static JSONArray createListOfUsers(List<User> list) {
+    public static JSONObject createListOfUsers(List<User> list) {
 
         JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
 
         for (User user : list) {
             jsonArray.add(createUserJson(user));
         }
 
-        return jsonArray;
+        jsonObject.put("data", jsonArray);
+
+        return jsonObject;
     }
 
     public static JSONObject createSingleJson(String token) {

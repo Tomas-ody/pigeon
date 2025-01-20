@@ -38,7 +38,7 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().get("admin", Boolean.class);
     }
     public int getId(String token) {
-        List<User> list = userService.getAllUsers();
+        List<User> list = userService.getAllUsers(0);
         for (User user : list) {
             if (Objects.equals(user.getUsername(), getUsername(token))) {
                 return user.getId();
@@ -47,7 +47,7 @@ public class JwtTokenProvider {
         return 0;
     }
     public String getPhone(String token) {
-        List<User> list = userService.getAllUsers();
+        List<User> list = userService.getAllUsers(0);
         for (User user : list) {
             if (Objects.equals(user.getUsername(), getUsername(token))) {
                 return user.getPhone();
@@ -56,7 +56,7 @@ public class JwtTokenProvider {
         return "";
     }
     public String getEmail(String token) {
-        List<User> list = userService.getAllUsers();
+        List<User> list = userService.getAllUsers(0);
         for (User user : list) {
             if (Objects.equals(user.getUsername(), getUsername(token))) {
                 return user.getEmail();

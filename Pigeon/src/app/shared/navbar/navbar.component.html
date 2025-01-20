@@ -1,7 +1,14 @@
 <div class="navbar">
+    @if (permissions) {
+        <section>
+            <div class="example-button-row">
+                <button mat-flat-button routerLink="/users/list" routerLinkActive="active">Users</button>
+            </div>
+        </section>
+    }
   <section>
       <div class="example-button-row">
-          <button mat-flat-button routerLink="/users/profile" routerLinkActive="active">Profile</button>
+          <button mat-flat-button (click)="profile()" routerLink="/users/profile" routerLinkActive="active">Profile</button>
       </div>
   </section>
   <section>

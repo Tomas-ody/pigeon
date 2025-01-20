@@ -8,7 +8,7 @@ import { Auth } from '../pigeon/entities/auth';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { AuthService } from './auth.service';
 
-export const DEFAULT_NAVIGATE_AFTER_LOGIN = '/pigeon/list';
+export const DEFAULT_NAVIGATE_AFTER_LOGIN = '/users/profile';
 export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '/users/login';
 
 @Injectable({
@@ -24,9 +24,7 @@ export class UserService {
 ) { }
 
   serverUrl = "http://localhost:8080/";
-  //private loggedUserSubject = new BehaviorSubject(this.username);
   navigateAfterLogin = DEFAULT_NAVIGATE_AFTER_LOGIN;
-  //loggedIn: boolean = false;
 
 
     get token(): string {
@@ -51,6 +49,16 @@ export class UserService {
       }
     }
   }
+
+  getOtherUser(id: number): Observable<User> {
+    return this.http.get<User>(this.serverUrl + "users/user/" + id).pipe(
+      map((jsonUser: User) => {
+        const user = User.clone(jsonUser);
+        return user;
+      })
+    )
+  }
+
   getUser(): Observable<User> {
     const token = localStorage.getItem("Token");
 
@@ -62,7 +70,11 @@ export class UserService {
       return this.http.get<any>(this.serverUrl + "users/me", { headers: {Authorization: token}}).pipe(
         map((jsonUser: any) => {
           console.log(jsonUser);
-          return User.clone(jsonUser);
+          const user = User.clone(jsonUser);
+          if (user.role == "ROLE_ADMIN") {
+            this.authService.setPermissions(true);
+          }
+          return user;
         }), 
         catchError(err => this.errorHandling(err))
       );
@@ -70,13 +82,23 @@ export class UserService {
     return this.http.get<any>(this.serverUrl + "users/me");
   }
 
-  
+  getUsers(token: any): Observable<User[]> {
+    const users: User[] = [];
+    return this.http.get<{data: User[]}>(this.serverUrl + "users/all", { headers: {Authorization: token}}).pipe(
+          map(response => {
+              
+            response.data.forEach(jsonUser => {
+              users.push(User.clone(jsonUser));
+            });
+            return users;
+          })
+        ) 
+  };
 
   login(auth: Auth): Observable<boolean> {
     return this.http.post(this.serverUrl + "auth/login", auth, {responseType: 'text'}).pipe(
       map(token => {
         this.token = token;
-        //this.username = auth.username;
         console.log("Bearer " + localStorage.getItem("Token"));
 
        
@@ -90,6 +112,7 @@ export class UserService {
   logout(): void {
     localStorage.removeItem("Token");
     this.authService.setLoggedIn(false);
+    this.authService.setPermissions(false);
     this.token = "";
     
   }

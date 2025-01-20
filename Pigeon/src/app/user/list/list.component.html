@@ -1,0 +1,9 @@
+@for (user of users; track $index;) {
+    <div (click)="showOtherProfile(user.id)">
+        <div>Name: {{user.username}}</div>
+        <div>Role: {{user.role}}</div>
+        <div>Phone: {{user.phone}}</div>
+        <div>Email: {{user.email}}</div>
+    </div>
+    
+}

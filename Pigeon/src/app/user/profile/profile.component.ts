@@ -5,11 +5,12 @@ import { HttpClient } from '@angular/common/http';
 import { PigeonService } from '../../pigeon/pigeon.service';
 import { Pigeon } from '../../pigeon/entities/pigeon';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MaterialModule } from '../../modules/material.module';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { subscribe } from 'diagnostics_channel';
 import { MessageService } from '../../shared/message.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +23,7 @@ export class ProfileComponent implements OnInit {
   showError = false;
   user?: User;
   userPigeons?: Pigeon[];
+  ownProfile: boolean = false;
 
   constructor (
     private userService: UserService,
@@ -32,30 +34,66 @@ export class ProfileComponent implements OnInit {
     private messageService: MessageService
   ) { }
 
+  route = inject(ActivatedRoute);
+
   ngOnInit(): void {
+
     this.authService.loggedIn$.subscribe((status) => {
       if (!status) {
         console.log(status)
         this.user = undefined;
         this.userPigeons = undefined;
-      } else {
+      } 
+      else {
+        this.authService.ownProfile$.subscribe((status) => {
+          this.ownProfile = status;
+        })
+
         console.log(status)
         const token = localStorage.getItem("Token");
-        this.userService.getUser().subscribe({
-          next: (user: User) => {
-            console.log("userService.getUser")
-            this.user = user;
-            this.showError = false;
-          },
-          error: err => {
-            console.log("Chyba: ", err);
-            this.showError = true;
-          }
-          
-        });
-        
-        this.loadDataPigeons(token);
+        if (this.route.snapshot.paramMap.get('id')) {
+          this.route.paramMap.subscribe(params => {
+            const id = Number(params.get('id'));
+            console.log("INY POUŽIVATEĽ")
+            this.loadDataOtherUser(id);
+            this.loadDataPigeonsOtherUser(id);
+          })
+        }
+        else {
+          this.loadDataUser();
+          this.loadDataPigeons(token);
+        }
       }
+    });
+  }
+
+  loadDataOtherUser(id: number) {
+    this.userService.getOtherUser(id).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      }
+    })
+  }
+
+  loadDataPigeonsOtherUser(id: number) {
+    this.pigeonService.getOtherUserPigeons(id).subscribe({
+      next: (pigeons: Pigeon[]) => {
+        this.userPigeons = pigeons;
+      }
+    })
+  }
+
+  loadDataUser() {
+    this.userService.getUser().subscribe({
+      next: (user: User) => {
+        this.user = user;
+        this.showError = false;
+      },
+      error: err => {
+        console.log("Chyba: ", err);
+        this.showError = true;
+      }
+      
     });
   }
 
@@ -78,7 +116,6 @@ export class ProfileComponent implements OnInit {
   }
 
   deletePigeon(pigeonId: number) {
-    console.log("click")
     this.pigeonService.deletePigeon(pigeonId).subscribe(() => {
       this.loadDataPigeons(localStorage.getItem("Token"));
       this.messageService.successToast("Pigeon deleted successfully", "X", 2000);

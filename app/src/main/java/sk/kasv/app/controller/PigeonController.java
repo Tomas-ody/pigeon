@@ -35,6 +35,12 @@ public class PigeonController {
     }
 
     @CrossOrigin
+    @GetMapping("/owner/{id}")
+    public ResponseEntity<JSONObject> getAllPigeonsOfUser(@PathVariable int id) {
+        return ResponseEntity.status(200).body(ConverterToJson.createListOfPigeons(pigeonService.getPigeonsByOwner(id)));
+    }
+
+    @CrossOrigin
     @GetMapping("/pigeon/{id}")
     public ResponseEntity<JSONObject> getPigeonById(@PathVariable int id) {
         if (pigeonService.getPigeonById(id) != null)
