@@ -75,6 +75,11 @@ export class PigeonService {
     return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon);
   }
 
+  deletePigeon(pigeonId: number): Observable<boolean> {
+    console.log("deletePigeon");
+    return this.http.delete<boolean>(this.serverUrl + "pigeons/delete/" + pigeonId);
+  }
+
   errorHandling(err: any):Observable<never> {
     if (err instanceof HttpErrorResponse) {
       if (err.status === 0) {

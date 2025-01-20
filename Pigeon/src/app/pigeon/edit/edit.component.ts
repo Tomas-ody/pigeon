@@ -26,7 +26,21 @@ export class EditComponent {
   }
 
   onApply() {
+    this.pigeon.kidsId = this.kidsId;
     this.pigeonService.updatePigeon(this.pigeon).subscribe();
     this.onCancel();
+  }
+
+  kidsIdString: string = '';
+
+  get kidsId(): number[] {
+    return this.kidsIdString
+      .split(',')
+      .map((id: string) => parseInt(id.trim(), 10))
+      .filter((id: number) => !isNaN(id));
+  }
+
+  set kidsId(value: number[]) {
+    this.kidsIdString = value.join(',');
   }
 }

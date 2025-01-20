@@ -54,24 +54,21 @@ public class PigeonService {
             throw new RuntimeException("Pigeon not found");
         }
 
-
         existingPigeon.setName(updatedPigeon.getName());
         existingPigeon.setColor(updatedPigeon.getColor());
         existingPigeon.setBreed(updatedPigeon.getBreed());
+        existingPigeon.setMotherId(updatedPigeon.getMotherId());
+        existingPigeon.setFatherId(updatedPigeon.getFatherId());
+        existingPigeon.setKidsId(updatedPigeon.getKidsId());
         pigeonStorage.put(id, existingPigeon);
 
         return existingPigeon;
     }
 
-    public void deletePigeon(int id, User currentUser) {
+    public void deletePigeon(int id) {
         Pigeon existingPigeon = pigeonStorage.get(id);
         if (existingPigeon == null) {
             throw new RuntimeException("Pigeon not found");
-        }
-
-        // Check permissions
-        if (!(Objects.equals(existingPigeon.getOwnerId(), currentUser.getId())) && !currentUser.isAdmin()) {
-            throw new RuntimeException("You do not have permission to delete this pigeon.");
         }
 
         pigeonStorage.remove(id);

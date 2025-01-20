@@ -67,6 +67,9 @@ public class PigeonController {
         updatedPigeon.setName(ConverterFromJson.getString(request, "name"));
         updatedPigeon.setColor(ConverterFromJson.getString(request, "color"));
         updatedPigeon.setBreed(ConverterFromJson.getString(request, "breed"));
+        updatedPigeon.setMotherId(ConverterFromJson.getInt(request, "motherId"));
+        updatedPigeon.setFatherId(ConverterFromJson.getInt(request, "fatherId"));
+        updatedPigeon.setKidsId(ConverterFromJson.getList(request, "kidsId"));
         int id = ConverterFromJson.getInt(request, "id");
 
         if (pigeonService.updatePigeon(id, updatedPigeon) != null) {
@@ -79,8 +82,9 @@ public class PigeonController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/{id}")
-    public void deletePigeon(@PathVariable int id, @AuthenticationPrincipal User currentUser) {
-        pigeonService.deletePigeon(id, currentUser);
+    @DeleteMapping("delete/{id}")
+    public void deletePigeon(@PathVariable int id) {
+        System.out.println("deletePigeon");
+        pigeonService.deletePigeon(id);
     }
 }
