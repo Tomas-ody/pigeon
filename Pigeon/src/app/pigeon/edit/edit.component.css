@@ -1,0 +1,14 @@
+.mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Add spacing between inputs */
+  }
+  
+  .mat-dialog-actions {
+    margin-top: 16px;
+  }
+  
+  .full-width {
+    width: 100%; /* Ensure inputs take full width */
+  }
+  

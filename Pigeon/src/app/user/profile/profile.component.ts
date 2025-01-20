@@ -7,6 +7,7 @@ import { Pigeon } from '../../pigeon/entities/pigeon';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../../modules/material.module';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ import { MaterialModule } from '../../modules/material.module';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit {
+
   showError = false;
   user?: User;
   userPigeons?: Pigeon[];
@@ -24,7 +26,7 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private pigeonService: PigeonService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +64,13 @@ export class ProfileComponent implements OnInit {
 
       }
     });
+  }
 
-   
+  editPigeon(pigeon: Pigeon) {
+    this.pigeonService.editPigeon(pigeon);
+  }
+
+  deletePigeon() {
+
   }
 }

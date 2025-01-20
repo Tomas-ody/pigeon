@@ -4,6 +4,9 @@ import { Pigeon } from './entities/pigeon';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from '../shared/message.service';
 import { Router } from '@angular/router';
+import { Dialog } from '@angular/cdk/dialog';
+import { EditComponent } from './edit/edit.component';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +16,13 @@ export class PigeonService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
 ) { }
 
   serverUrl = "http://localhost:8080/";
+
+  
 
   getUserPigeons(token: any): Observable<Pigeon[]> {
     //const token = localStorage.getItem("umToken");
@@ -62,8 +68,11 @@ export class PigeonService {
       map(jsonPigeon => Pigeon.clone(jsonPigeon)),
       //catchError(err => this.errorHandling(err))
     );
+  }
 
-    
+  updatePigeon(pigeon: Pigeon): Observable<boolean> {
+    console.log("updatePigeon");
+    return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon);
   }
 
   errorHandling(err: any):Observable<never> {
@@ -90,4 +99,12 @@ export class PigeonService {
     console.error(err);
     return EMPTY;
   }
+
+  editPigeon(pigeon: Pigeon) {
+    let editWindow = this.dialog.open(EditComponent, {
+      height: '400px',
+      width: '600px',
+      data: pigeon
+    })
+  };
 }

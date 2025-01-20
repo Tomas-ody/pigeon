@@ -48,16 +48,12 @@ public class PigeonService {
         return pigeon;
     }
 
-    public Pigeon updatePigeon(int id, Pigeon updatedPigeon, User currentUser) {
+    public Pigeon updatePigeon(int id, Pigeon updatedPigeon) {
         Pigeon existingPigeon = pigeonStorage.get(id);
         if (existingPigeon == null) {
             throw new RuntimeException("Pigeon not found");
         }
 
-        // Check permissions
-        if (!(existingPigeon.getOwnerId() == (currentUser.getId())) && !currentUser.isAdmin()) {
-            throw new RuntimeException("You do not have permission to update this pigeon.");
-        }
 
         existingPigeon.setName(updatedPigeon.getName());
         existingPigeon.setColor(updatedPigeon.getColor());
