@@ -1,5 +1,3 @@
-<p>profile works!</p>
-
 @if(showError) {
     <div role="alert">
       Server je nedostupný. Choď sa prejsť príď o 15 min.
@@ -15,16 +13,24 @@
   <div>
     <h3>Tvoji holuby:</h3>
     @if(userPigeons != null) {
-        
+      <div class="pigeonCards">
             @for (pigeon of userPigeons; track pigeon.name) {
-              <ul>
+              
+                <div class="pigeonCard">
+                  <ul>
                     <li>Name: {{pigeon.name}}</li>
                     <li>Breed: {{pigeon.breed}}</li>
                     <li>Color: {{pigeon.color}}</li>
                     <li>FatherId: {{pigeon.fatherId}}</li>
                     <li>MotherId: {{pigeon.motherId}}</li>
-              </ul>
+                  </ul>
+                  <div class="buttons">
+                    <button mat-flat-button class="edit_button" (click)="editPigeon(pigeon)">Edit</button>
+                    <button mat-flat-button class="delete_button" (click)="deletePigeon()">Delete</button>
+                  </div>
+                </div>
             }
+          </div>
       }
       @if(user != null) {
         <button mat-flat-button routerLink="/pigeon/add" routerLinkActive="active">Add Pigeon</button>

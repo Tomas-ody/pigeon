@@ -1,0 +1,31 @@
+.pigeonCards {
+    display: flex;
+    padding: 10px 10px;
+    gap: 10px;
+}
+
+.pigeonCard {
+    border: 1px solid black;
+    border-radius: 10px;
+    min-width: 150px;
+    max-width: 250px;
+}
+
+.buttons {
+    display: flex;
+    padding: auto;
+    padding: 10px 10px;
+    gap: 20px;
+}
+
+.buttons button {
+    width: 60px;
+}
+/*
+.buttons .delete_button {
+    background-color: rgb(255, 101, 101);
+}
+
+.buttons .edit_button {
+    background-color: rgb(96, 186, 255);
+}*/

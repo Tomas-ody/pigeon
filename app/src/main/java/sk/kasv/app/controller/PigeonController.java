@@ -1,5 +1,6 @@
 package sk.kasv.app.controller;
 
+import jakarta.persistence.PostUpdate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,18 +60,21 @@ public class PigeonController {
     }
 
     @CrossOrigin
-    @PutMapping("/{id}")
-    public ResponseEntity<Boolean> updatePigeon(
-            @PathVariable int id,
-            @RequestBody JSONObject request,
-            @AuthenticationPrincipal User currentUser) {
+    @PostMapping("/update")
+    public ResponseEntity<Boolean> updatePigeon(@RequestBody JSONObject request) {
+        System.out.println("updatujem holuba");
         Pigeon updatedPigeon = new Pigeon();
         updatedPigeon.setName(ConverterFromJson.getString(request, "name"));
         updatedPigeon.setColor(ConverterFromJson.getString(request, "color"));
         updatedPigeon.setBreed(ConverterFromJson.getString(request, "breed"));
+        int id = ConverterFromJson.getInt(request, "id");
 
-        if (pigeonService.updatePigeon(id, updatedPigeon, currentUser) != null)
+        if (pigeonService.updatePigeon(id, updatedPigeon) != null) {
+            System.out.println("úspešný update");
             return ResponseEntity.status(200).body(true);
+
+        }
+        System.out.println("neúspešný update");
         return ResponseEntity.status(400).body(false);
     }
 

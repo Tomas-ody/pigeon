@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PigeonRoutingModule } from './pigeon-routing.module';
 import { ListComponent } from './list/list.component';
+import { EditComponent } from './edit/edit.component';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { ListComponent } from './list/list.component';
   imports: [
     CommonModule,
     PigeonRoutingModule,
-    ListComponent
+    ListComponent,
+    EditComponent
   ]
 })
 export class PigeonModule { }
