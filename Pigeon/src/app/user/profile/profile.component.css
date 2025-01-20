@@ -2,12 +2,14 @@
     display: flex;
     padding: 10px 10px;
     gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .pigeonCard {
-    border: 1px solid black;
+    border: 3px solid #1DB954;
     border-radius: 10px;
-    min-width: 150px;
+    min-width: 220px;
     max-width: 250px;
 }
 
@@ -19,7 +21,15 @@
 }
 
 .buttons button {
+    background-color: #1DB954;
+    font-weight:500;
+    color: #FFFFFF;
     width: 60px;
+}
+.mat-mdc-unelevated-button{
+    background-color: #1DB954;
+    font-weight:500;
+    color: #FFFFFF;
 }
 /*
 .buttons .delete_button {
