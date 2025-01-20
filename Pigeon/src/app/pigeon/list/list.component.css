@@ -1,0 +1,13 @@
+ul{
+    border: 3px solid #1DB954;
+    border-radius: 10px;
+    min-width: 220px;
+    max-width: 250px;
+    
+}
+
+.test{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

@@ -1,6 +1,7 @@
 @if(pigeons != null) {
-        
+  <div class="test">     
     @for (pigeon of pigeons; track pigeon.name) {
+      <div class="test-card">
       <ul>
             <li>Name: {{pigeon.name}}</li>
             <li>Breed: {{pigeon.breed}}</li>
@@ -9,5 +10,7 @@
             <li>FatherId: {{pigeon.fatherId}}</li>
             <li>MotherId: {{pigeon.motherId}}</li>
       </ul>
+    </div>
     }
+  </div>
 }

@@ -1,7 +1,7 @@
 .pigeonCards {
-    display: flex;
     padding: 10px 10px;
     gap: 10px;
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -12,12 +12,15 @@
     min-width: 220px;
     max-width: 250px;
 }
+.pigeonCard ul {
+   height: 150px;
+}
 
 .buttons {
     display: flex;
-    padding: auto;
     padding: 10px 10px;
     gap: 20px;
+    justify-content: center;
 }
 
 .buttons button {
