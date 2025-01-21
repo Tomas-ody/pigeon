@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export class Pigeon {
 
     public static clone(pigeon: Pigeon) : Pigeon {
@@ -9,7 +11,8 @@ export class Pigeon {
             pigeon.name,
             pigeon.color,
             pigeon.breed,
-            pigeon.ownerId
+            pigeon.ownerId,
+            pigeon.owner
         )
     }
 
@@ -21,7 +24,8 @@ export class Pigeon {
         public name: string,
         public color: string,
         public breed: string,
-        public ownerId: number
+        public ownerId: number,
+        public owner?: User
     ) {}
 
     toString(): string {

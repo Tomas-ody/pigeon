@@ -18,7 +18,10 @@ export class ListComponent implements OnInit {
   pigeons?: Pigeon[];
 
   ngOnInit(): void {
-    //const token = localStorage.getItem("umToken");
+    this.loadDataAllPigeons();
+  }
+
+  loadDataAllPigeons() {
     this.pigeonService.getPigeons().subscribe({
       next: (pigeons: Pigeon[]) => {
         this.pigeons = pigeons;
