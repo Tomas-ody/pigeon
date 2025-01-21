@@ -51,6 +51,8 @@ export class ProfileComponent implements OnInit {
           this.ownProfile = status;
         })
 
+        
+
         console.log(status)
         const token = localStorage.getItem("Token");
         if (this.route.snapshot.paramMap.get('id')) {
@@ -59,12 +61,15 @@ export class ProfileComponent implements OnInit {
             console.log("INY POUŽIVATEĽ")
             this.loadDataOtherUser(id);
             this.loadDataPigeonsOtherUser(id);
+            
           })
         }
         else {
           this.loadDataUser();
           this.loadDataPigeons(token);
         }
+
+        
       }
     });
   }
@@ -88,7 +93,8 @@ export class ProfileComponent implements OnInit {
   loadDataUser() {
     this.userService.getUser().subscribe({
       next: (user: User) => {
-        this.user = user;
+        this.user = User.clone(user);
+        this.authService.setUserEmail(this.user.email);
         this.showError = false;
       },
       error: err => {

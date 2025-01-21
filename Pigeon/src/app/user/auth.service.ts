@@ -12,8 +12,14 @@ export class AuthService {
   permissions$ = this.permissionsSource.asObservable();
   private ownProfile = new BehaviorSubject<boolean>(false);
   ownProfile$ = this.ownProfile.asObservable();
+  private userEmail = new BehaviorSubject<String>("");
+  userEmail$ = this.userEmail.asObservable();
 
   constructor() { }
+
+  setUserEmail(value: String) {
+    this.userEmail.next(value);
+  }
 
   setOwnProfile(value: boolean) {
     this.ownProfile.next(value);

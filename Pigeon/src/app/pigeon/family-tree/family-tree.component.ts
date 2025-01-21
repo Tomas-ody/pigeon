@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Pigeon } from '../entities/pigeon';
-import { ActivatedRoute } from '@angular/router';
 import { PigeonService } from '../pigeon.service';
 import { map, Observable } from 'rxjs';
 import { User } from '../entities/user';
 import { UserService } from '../../user/user.service';
+import { AuthService } from '../../user/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-family-tree',
@@ -19,6 +20,8 @@ export class FamilyTreeComponent {
   route = inject(ActivatedRoute);
   pigeonService = inject(PigeonService);
   userService = inject(UserService);
+  authService = inject(AuthService);
+  router = inject(Router);
   
   pigeon?: Pigeon;
   papaPigeon?: Pigeon;
@@ -92,5 +95,21 @@ export class FamilyTreeComponent {
 
   getOwner(id: number): Observable<User> {
     return this.userService.getOtherUser(id)
+  }
+
+  openProfile(user: any) {
+    this.authService.userEmail$.subscribe((status) => {
+      console.log(status);
+      console.log(user.email);
+      if (status == user.email) {
+        console.log("našla sa zhoda v emailoch");
+        this.authService.setOwnProfile(true);
+      }
+      else {
+        this.authService.setOwnProfile(false);
+      }
+    })
+
+    this.router.navigateByUrl('users/profile/' + user.id);
   }
 }

@@ -100,8 +100,6 @@ export class UserService {
     return this.http.post(this.serverUrl + "auth/login", auth, {responseType: 'text'}).pipe(
       map(token => {
         this.token = token;
-        console.log("Bearer " + localStorage.getItem("Token"));
-
        
         this.messageService.successToast("Login has been successful", 'X', 2000);
         return true;
@@ -115,7 +113,7 @@ export class UserService {
     this.authService.setLoggedIn(false);
     this.authService.setPermissions(false);
     this.token = "";
-    
+    this.authService.setUserEmail("");
   }
 
   errorHandling(err: any):Observable<never> {
