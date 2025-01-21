@@ -1,6 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { PigeonService } from '../pigeon.service';
 import { Pigeon } from '../entities/pigeon';
+import { AuthService } from '../../user/auth.service';
+import { Router } from '@angular/router';
+import { MessageService } from '../../shared/message.service';
 
 @Component({
   selector: 'app-list',
@@ -15,6 +18,9 @@ export class ListComponent implements OnInit {
   ) { }
 
   pigeonService = inject(PigeonService);
+  authService = inject(AuthService);
+  router = inject(Router);
+  messageService = inject(MessageService);
   showError = false;
   pigeons?: Pigeon[];
 
@@ -35,6 +41,15 @@ export class ListComponent implements OnInit {
   }
 
   goToFamilyTree(pigeon: Pigeon) {
-    this.pigeonService.openFamilyTree(pigeon.id);
+    this.authService.loggedIn$.subscribe((status) => {
+      if (status) {
+        this.pigeonService.openFamilyTree(pigeon.id);
+      }
+      else {
+        this.router.navigateByUrl("/users/login");
+        this.messageService.successToast("You need to login first", "X", 2000);
+      }
+    })
+    
     }
 }
