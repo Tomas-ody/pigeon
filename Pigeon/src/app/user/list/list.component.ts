@@ -21,9 +21,11 @@ export class ListComponent {
 
   ngOnInit() {
     const token = localStorage.getItem("Token");
-    this.userService.getUsers(token).subscribe({
-      next: (users) => this.users = users
-    });
+    this.userService.getUsers(token).subscribe(
+      (users) => {
+        this.users = users
+      }
+    );
   }
 
   showOtherProfile(userId: number) {

@@ -26,10 +26,8 @@ export class ListComponent implements OnInit {
       next: (pigeons: Pigeon[]) => {
         this.pigeons = pigeons;
         this.showError = false;
-        console.log(this.pigeons);
       },
       error: err => {
-        console.log("Chyba: ", err);
         this.showError = true;
       }
     });

@@ -138,4 +138,8 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
+  goToFamilyTree(pigeon: Pigeon) {
+    this.pigeonService.openFamilyTree(pigeon.id);
+  }
 }
