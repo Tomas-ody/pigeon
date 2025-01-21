@@ -1,9 +1,12 @@
-@for (user of users; track $index;) {
-    <div (click)="showOtherProfile(user.id)">
-        <div>Name: {{user.username}}</div>
-        <div>Role: {{user.role}}</div>
-        <div>Phone: {{user.phone}}</div>
-        <div>Email: {{user.email}}</div>
+<div class="user-list">
+  @for (user of users; track $index;) {
+    <div class="user-item" (click)="showOtherProfile(user.id)">
+      <div class="user-info">
+        <div class="user-name">Name: {{user.username}}</div>
+        <div class="user-role">Role: {{user.role}}</div>
+        <div class="user-phone">Phone: {{user.phone}}</div>
+        <div class="user-email">Email: {{user.email}}</div>
+      </div>
     </div>
-    
-}
+  }
+</div>

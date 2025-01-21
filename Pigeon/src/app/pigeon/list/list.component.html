@@ -1,12 +1,14 @@
-@if(pigeons != null) {
+<div class="pigeon-list">
+  @if(pigeons != null) {
     @for (pigeon of pigeons; track pigeon.name) {
-      <ul>
-            <li>Name: {{pigeon.name}}</li>
-            <li>Breed: {{pigeon.breed}}</li>
-            <li>Color: {{pigeon.color}}</li>
-            <li>Owner: {{pigeon.owner?.username}}</li>
-            <li>FatherId: {{pigeon.fatherId}}</li>
-            <li>MotherId: {{pigeon.motherId}}</li>
+      <ul class="pigeon-item">
+        <li>Name: {{pigeon.name}}</li>
+        <li>Breed: {{pigeon.breed}}</li>
+        <li>Color: {{pigeon.color}}</li>
+        <li>Owner: {{pigeon.owner?.username}}</li>
+        <li>FatherId: {{pigeon.fatherId}}</li>
+        <li>MotherId: {{pigeon.motherId}}</li>
       </ul>
     }
-}
+  }
+</div>
