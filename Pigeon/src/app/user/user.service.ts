@@ -30,7 +30,8 @@ export class UserService {
     get token(): string {
       return localStorage.getItem('Token') || '';
     }
-  
+
+
   set token(value: string | null) {
     if (typeof window !== 'undefined' && localStorage) {
       if (value) {

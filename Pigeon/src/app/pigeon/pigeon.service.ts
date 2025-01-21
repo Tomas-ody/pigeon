@@ -57,18 +57,17 @@ export class PigeonService {
     const pigeons: Pigeon[] = [];
     return this.http.get<{ data: Pigeon[]}>(this.serverUrl + "pigeons/list").pipe(
       mergeMap(response => {
-        // Mapujeme všetky `ownerId` na observables na získanie používateľov
+
         const observables = response.data.map(jsonPigeon =>
           this.userService.getOtherUser(jsonPigeon.ownerId).pipe(
             map(user => {
               const tempPigeon = Pigeon.clone(jsonPigeon);
-              tempPigeon.owner = User.clone(user); // Nastavenie vlastníka
+              tempPigeon.owner = User.clone(user); 
               return tempPigeon;
             })
           )
         );
-  
-        // Použijeme forkJoin na získanie všetkých výsledkov naraz
+
         return forkJoin(observables);
       })
     );

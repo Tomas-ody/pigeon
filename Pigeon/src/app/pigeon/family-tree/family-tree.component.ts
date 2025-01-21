@@ -33,21 +33,24 @@ export class FamilyTreeComponent {
         if (response) {
           this.getOwner(response.ownerId).subscribe(
             (ownerResponse) => {
-              response.owner = ownerResponse;
+              response.owner = User.clone(ownerResponse);
+              this.pigeon = Pigeon.clone(response);
+              console.log(this.pigeon);
             }
           )
-          this.pigeon = Pigeon.clone(response);
+          
           console.log(this.pigeon);
 
           if (response.fatherId != 0) {
             this.pigeonService.getPigeon(response.fatherId).subscribe(
               (fatherResponse) => {
                 this.getOwner(fatherResponse.ownerId).subscribe(
-                  (ownerResponse) => {
-                    fatherResponse.owner = ownerResponse;
+                  (ownerFatherResponse) => {
+                    fatherResponse.owner = User.clone(ownerFatherResponse);
+                    this.papaPigeon = Pigeon.clone(fatherResponse);
                   }
                 )
-                this.papaPigeon = Pigeon.clone(fatherResponse);
+                
                 console.log(this.papaPigeon);
               }
             )
@@ -56,11 +59,12 @@ export class FamilyTreeComponent {
             this.pigeonService.getPigeon(response.motherId).subscribe(
               (motherResponse) => {
                 this.getOwner(motherResponse.ownerId).subscribe(
-                  (ownerResponse) => {
-                    motherResponse.owner = ownerResponse;
+                  (ownerMotherResponse) => {
+                    motherResponse.owner = User.clone(ownerMotherResponse);
+                    this.mamaPigeon = Pigeon.clone(motherResponse);
                   }
                 )
-                this.mamaPigeon = Pigeon.clone(motherResponse);
+                
                 console.log(this.mamaPigeon);
               }
             )
@@ -70,11 +74,12 @@ export class FamilyTreeComponent {
               this.pigeonService.getPigeon(element).subscribe(
                 (kidResponse) => {
                       this.getOwner(kidResponse.ownerId).subscribe(
-                    (ownerResponse) => {
-                      kidResponse.owner = ownerResponse;
+                    (ownerKidResponse) => {
+                      kidResponse.owner = User.clone(ownerKidResponse);
+                      this.childrenPigeons.push(Pigeon.clone(kidResponse));
                     }
                   );
-                  this.childrenPigeons.push(Pigeon.clone(kidResponse));
+                  
                   console.log(kidResponse);
                 }
               )
@@ -86,8 +91,6 @@ export class FamilyTreeComponent {
   }
 
   getOwner(id: number): Observable<User> {
-    return this.userService.getOtherUser(id).pipe(
-      map((response) => User.clone(response))
-    );
+    return this.userService.getOtherUser(id)
   }
 }

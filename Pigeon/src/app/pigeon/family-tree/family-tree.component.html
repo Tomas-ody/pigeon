@@ -15,9 +15,9 @@
 }
 <h2>Current pigeon</h2>
 <div>{{pigeon?.name}}</div>
-<div>{{mamaPigeon?.breed}}</div>
-<div>{{mamaPigeon?.color}}</div>
-<div>{{mamaPigeon?.owner?.username}}</div>
+<div>{{pigeon?.breed}}</div>
+<div>{{pigeon?.color}}</div>
+<div>{{pigeon?.owner?.username}}</div>
 
 @for (child of childrenPigeons; track $index) {
     <h2>Child</h2>
