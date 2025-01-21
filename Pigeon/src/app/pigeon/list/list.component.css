@@ -1,0 +1,14 @@
+.ng-star-inserted{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    min-width: 220px;
+    max-width: 250px;
+    margin:5px;
+    
+}
+
+.pigeon-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

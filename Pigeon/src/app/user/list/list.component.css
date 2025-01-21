@@ -1,0 +1,13 @@
+.user-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.user-item{
+    margin: 5px;
+    border-radius: 10px;
+    min-width: 220px;
+    max-width: 250px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

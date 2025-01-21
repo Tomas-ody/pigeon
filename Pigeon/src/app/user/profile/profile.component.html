@@ -10,6 +10,9 @@
     <p>{{user?.email}}</p>
     <p>{{user?.phone}}</p>
   </div>
+  @if(ownProfile) {
+    <button mat-flat-button routerLink="/pigeon/add" routerLinkActive="active">Add Pigeon</button>
+  }
   <div>
     <h3>Tvoji holuby:</h3>
     @if(userPigeons != null) {
@@ -32,7 +35,4 @@
                 </div>
             }
           </div>
-      }
-      @if(ownProfile) {
-        <button mat-flat-button routerLink="/pigeon/add" routerLinkActive="active">Add Pigeon</button>
       }

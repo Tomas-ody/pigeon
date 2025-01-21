@@ -1,25 +1,39 @@
 .pigeonCards {
-    display: flex;
     padding: 10px 10px;
     gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .pigeonCard {
-    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 5px;
     border-radius: 10px;
-    min-width: 150px;
+    min-width: 220px;
     max-width: 250px;
+}
+.pigeonCard ul {
+   height: 150px;
 }
 
 .buttons {
     display: flex;
-    padding: auto;
     padding: 10px 10px;
     gap: 20px;
+    justify-content: center;
 }
 
 .buttons button {
+    background-color: #1DB954;
+    font-weight:500;
+    color: #FFFFFF;
     width: 60px;
+}
+.mat-mdc-unelevated-button{
+    background-color: #1DB954;
+    font-weight:500;
+    color: #FFFFFF;
 }
 /*
 .buttons .delete_button {
