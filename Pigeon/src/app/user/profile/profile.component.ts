@@ -11,6 +11,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { subscribe } from 'diagnostics_channel';
 import { MessageService } from '../../shared/message.service';
 import { Observable } from 'rxjs';
+import { ConfirmationComponent } from '../../shared/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-profile',
@@ -31,7 +32,8 @@ export class ProfileComponent implements OnInit {
     private pigeonService: PigeonService,
     private authService: AuthService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialog: MatDialog
   ) { }
 
   route = inject(ActivatedRoute);
@@ -116,9 +118,24 @@ export class ProfileComponent implements OnInit {
   }
 
   deletePigeon(pigeonId: number) {
-    this.pigeonService.deletePigeon(pigeonId).subscribe(() => {
-      this.loadDataPigeons(localStorage.getItem("Token"));
-      this.messageService.successToast("Pigeon deleted successfully", "X", 2000);
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirm Deletion',
+        message: 'Are you sure you want to delete this Pigeon?'
+      }
+    });
+
+    
+    
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.pigeonService.deletePigeon(pigeonId).subscribe(() => {
+          this.loadDataPigeons(localStorage.getItem("Token"));
+          this.messageService.successToast("Pigeon deleted successfully", "X", 2000);
+        });
+      }
     });
   }
 }
