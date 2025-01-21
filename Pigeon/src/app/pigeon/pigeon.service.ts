@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Dialog } from '@angular/cdk/dialog';
 import { EditComponent } from './edit/edit.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -50,15 +51,27 @@ export class PigeonService {
 
   getPigeons(): Observable<Pigeon[]> {
     const pigeons: Pigeon[] = [];
-    return this.http.get<{ data: Pigeon[]}>(this.serverUrl + "pigeons/list"/*, { headers: {Authorization: token}}*/).pipe(
+    return this.http.get<{ data: Pigeon[]}>(this.serverUrl + "pigeons/list").pipe(
       map(response => {
           
         response.data.forEach(jsonPigeon => {
-          pigeons.push(Pigeon.clone(jsonPigeon)); // Manuálne pridávanie do poľa
+          pigeons.push(Pigeon.clone(jsonPigeon));
         });
         return pigeons;
       })
     ) 
+  }
+
+  getOtherUserPigeons(id: number): Observable<Pigeon[]> {
+    const pigeons: Pigeon[] = [];
+    return this.http.get<{data: Pigeon[]}>(this.serverUrl + "pigeons/owner/" + id).pipe(
+      map(response => {
+        response.data.forEach(jsonPigeon => {
+          pigeons.push(Pigeon.clone(jsonPigeon));
+        });
+        return pigeons;
+      })
+    )
   }
 
   sendAddNewPigeon(pigeon: Pigeon, token: any): Observable<Pigeon> {

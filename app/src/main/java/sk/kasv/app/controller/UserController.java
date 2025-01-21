@@ -20,12 +20,12 @@ public class UserController {
 
     // Endpoint to fetch all users (Admin only)
     @CrossOrigin
-    @GetMapping
-    public ResponseEntity<JSONArray> getAllUsers(@AuthenticationPrincipal User currentUser) {
+    @GetMapping("/all")
+    public ResponseEntity<JSONObject> getAllUsers(@AuthenticationPrincipal UserDetailsImpl currentUser) {
         if (!currentUser.isAdmin()) {
             return ResponseEntity.status(401).body(null);
         }
-        return ResponseEntity.status(200).body(ConverterToJson.createListOfUsers(userService.getAllUsers()));
+        return ResponseEntity.status(200).body(ConverterToJson.createListOfUsers(userService.getAllUsers(currentUser.getId())));
     }
 
     // Endpoint to fetch the current user's details
@@ -44,7 +44,7 @@ public class UserController {
 
     // Endpoint to fetch a user by ID (Admin only)
     @CrossOrigin
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<JSONObject> getUserById(@PathVariable int id) {
         return ResponseEntity.status(200).body(ConverterToJson.createUserJson(userService.getUserById(id)));
     }

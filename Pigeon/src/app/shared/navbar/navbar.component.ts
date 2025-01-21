@@ -19,17 +19,23 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService
   ) {}
   loggedIn: boolean = false;
+  permissions: boolean = false;
 
   ngOnInit(): void {
     this.authService.loggedIn$.subscribe((status) => {
       this.loggedIn = status; 
     });
+    this.authService.permissions$.subscribe((status) => {
+      this.permissions = status;
+    })
   }
 
   logout() {
     this.userService.logout();
-   // this.loggedIn == this.userService.loggedIn;
-   // this.authService.setLoggedIn(false);
     this.router.navigateByUrl("/users/login");
+  }
+
+  profile() {
+    this.authService.setOwnProfile(true);
   }
 }
