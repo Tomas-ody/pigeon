@@ -1,12 +1,15 @@
 <div class="pigeon-list">
   @if(pigeons != null) {
     @for (pigeon of pigeons; track pigeon.name) {
-      <ul class="pigeon-item">
-        <li>Name: {{pigeon.name}}</li>
-        <li>Breed: {{pigeon.breed}}</li>
-        <li>Color: {{pigeon.color}}</li>
-        <li>Owner: {{pigeon.owner?.username}}</li>
-      </ul>
+      <div class="pigeon-item">
+        <ul>
+          <li>Name: {{pigeon.name}}</li>
+          <li>Breed: {{pigeon.breed}}</li>
+          <li>Color: {{pigeon.color}}</li>
+          <li>Owner: {{pigeon.owner?.username}}</li>
+        </ul>
+        <button mat-flat-button class="family_button" (click)="goToFamilyTree(pigeon)">Family</button>
+      </div>
     }
   }
 </div>

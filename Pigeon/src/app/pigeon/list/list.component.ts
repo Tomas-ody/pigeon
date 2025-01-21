@@ -9,8 +9,9 @@ import { Pigeon } from '../entities/pigeon';
   styleUrl: './list.component.css'
 })
 export class ListComponent implements OnInit {
+
   constructor (
-    //private pigeonService: PigeonService
+
   ) { }
 
   pigeonService = inject(PigeonService);
@@ -32,4 +33,8 @@ export class ListComponent implements OnInit {
       }
     });
   }
+
+  goToFamilyTree(pigeon: Pigeon) {
+    this.pigeonService.openFamilyTree(pigeon.id);
+    }
 }
