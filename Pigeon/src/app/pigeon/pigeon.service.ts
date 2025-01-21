@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { catchError, EMPTY, map, Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { catchError, EMPTY, forkJoin, map, mergeMap, Observable } from 'rxjs';
 import { Pigeon } from './entities/pigeon';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from '../shared/message.service';
@@ -8,6 +8,8 @@ import { Dialog } from '@angular/cdk/dialog';
 import { EditComponent } from './edit/edit.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { response } from 'express';
+import { UserService } from '../user/user.service';
+import { User } from './entities/user';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class PigeonService {
     private router: Router,
     private dialog: MatDialog
 ) { }
-
+  userService = inject(UserService);
   serverUrl = "http://localhost:8080/";
 
   
@@ -52,14 +54,22 @@ export class PigeonService {
   getPigeons(): Observable<Pigeon[]> {
     const pigeons: Pigeon[] = [];
     return this.http.get<{ data: Pigeon[]}>(this.serverUrl + "pigeons/list").pipe(
-      map(response => {
-          
-        response.data.forEach(jsonPigeon => {
-          pigeons.push(Pigeon.clone(jsonPigeon));
-        });
-        return pigeons;
+      mergeMap(response => {
+        // Mapujeme všetky `ownerId` na observables na získanie používateľov
+        const observables = response.data.map(jsonPigeon =>
+          this.userService.getOtherUser(jsonPigeon.ownerId).pipe(
+            map(user => {
+              const tempPigeon = Pigeon.clone(jsonPigeon);
+              tempPigeon.owner = User.clone(user); // Nastavenie vlastníka
+              return tempPigeon;
+            })
+          )
+        );
+  
+        // Použijeme forkJoin na získanie všetkých výsledkov naraz
+        return forkJoin(observables);
       })
-    ) 
+    );
   }
 
   getOtherUserPigeons(id: number): Observable<Pigeon[]> {

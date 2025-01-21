@@ -32,7 +32,6 @@ public class UserController {
     @CrossOrigin
     @GetMapping("/me")
     public ResponseEntity<JSONObject> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl currentUser, @RequestHeader("Authorization") String token) {
-        System.out.println("Token: " + token);
 
         if (currentUser != null) {
             System.out.println(currentUser.getUsername() + " " + currentUser.getPassword());
