@@ -1,7 +1,7 @@
 <form (ngSubmit)="onSubmit()">
   <div class="form-container">
     <div class="username-container">
-      <mat-form-field>
+      <mat-form-field class="username-input">
         <mat-label>Username</mat-label>
         <input
         type="text"
@@ -16,6 +16,7 @@
       <mat-form-field>
         <mat-label>Password</mat-label>
         <input
+        class="password-input"
         type="password"
         matInput
         required
