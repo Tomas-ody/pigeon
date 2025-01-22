@@ -41,7 +41,7 @@ mat-label {
 mat-input {
   font-size: 16px;
   padding: 10px;
-  border: 1px solid #de0b0b;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
