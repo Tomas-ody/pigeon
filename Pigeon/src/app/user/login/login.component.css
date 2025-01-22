@@ -31,11 +31,12 @@ body {
 mat-form-field {
   width: 100%;
   margin-bottom: 20px;
+  color: #3e8e41;
 }
 
 mat-label {
   font-size: 16px;
-  color: #333;
+  color: #ffffff;
 }
 
 mat-input {

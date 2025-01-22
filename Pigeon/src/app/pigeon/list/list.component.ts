@@ -50,6 +50,10 @@ export class ListComponent implements OnInit {
         this.messageService.successToast("You need to login first", "X", 2000);
       }
     })
-    
     }
+
+  goToProfile(id: number) {
+    this.authService.setOwnProfile(false);
+    this.router.navigate(['users/profile', id]);
+  }
 }
