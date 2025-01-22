@@ -20,7 +20,7 @@
     @if(ownProfile) {
       <button mat-flat-button routerLink="/pigeon/add" routerLinkActive="active">Add Pigeon</button>
     }
-  </div>
+  </div>  
     @if(userPigeons != null) {
       <div class="pigeonCards">
             @for (pigeon of userPigeons; track pigeon.name) {
