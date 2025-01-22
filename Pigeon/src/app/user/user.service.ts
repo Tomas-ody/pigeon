@@ -64,7 +64,7 @@ export class UserService {
     const token = localStorage.getItem("Token");
 
     if (!token) {
-      this.messageService.errorToast("Missing token", 'X', 100000)
+      this.messageService.errorToast("Missing token", 'X', 2000)
     }
     else {
 
@@ -77,7 +77,7 @@ export class UserService {
           }
           return user;
         }), 
-        catchError(err => this.errorHandling(err))
+        catchError(err => this.errorHandling(err, "We have technicall issues."))
       );
     }
     return this.http.get<any>(this.serverUrl + "users/me");
@@ -92,8 +92,9 @@ export class UserService {
               users.push(User.clone(jsonUser));
             });
             return users;
-          })
-        ) 
+          }),
+          catchError(err => this.errorHandling(err, "Couldn't get all users."))
+        );
   };
 
   login(auth: Auth): Observable<boolean> {
@@ -104,7 +105,7 @@ export class UserService {
         this.messageService.successToast("Login has been successful", 'X', 2000);
         return true;
       }),
-      catchError(err => this.errorHandling(err))
+      catchError(err => this.errorHandling(err, "Invalid credentials"))
     );
   }
 
@@ -116,7 +117,7 @@ export class UserService {
     this.authService.setUserEmail("");
   }
 
-  errorHandling(err: any):Observable<never> {
+  errorHandling(err: any, message?: string):Observable<never> {
     if (err instanceof HttpErrorResponse) {
       if (err.status === 0) {
         this.messageService.errorToast("Server not accessible", 'X', 100000);
@@ -126,16 +127,18 @@ export class UserService {
         const msg = err.error.errorMessage || JSON.parse(err.error).errorMessage;
         if (msg === "unknown token") {
           this.token = '';
-          //this.username = ''; 
-          this.messageService.errorToast("Session lost, please log in again", 'X', 100000);
+          this.messageService.errorToast("Session lost, please log in again", 'X', 2000);
           this.router.navigateByUrl("/login");
           return EMPTY;
         }
-        this.messageService.errorToast(msg, 'X', 100000);
-        return EMPTY;
+        else {
+          this.messageService.errorToast((message || "Missing a message"), 'X', 2000);
+          return EMPTY;
+        }
+        
       }
-      // status >= 500
-      this.messageService.errorToast("Server error, see log for details", 'X', 100000);
+      if (err.status >= 500)
+        this.messageService.errorToast("Server error, see log for details", 'X', 2000);
     }
     console.error(err);
     return EMPTY;
