@@ -10,7 +10,6 @@ import { MessageService } from '../../shared/message.service';
 @Component({
   selector: 'app-edit',
   imports: [MatDialogModule, MatFormField, MatLabel, MaterialModule],
-  //standalone: true,
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css'
 })

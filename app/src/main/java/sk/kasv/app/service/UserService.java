@@ -32,6 +32,7 @@ public class UserService {
     }
 
     public User getUserById(int id) {
+        System.out.println(id);
         return userStorage.get(id);
     }
 

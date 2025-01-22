@@ -1,0 +1,9 @@
+<div class="dialog-container">
+    <h2 class="dialog-title">{{ data.title }}</h2>
+    <p class="dialog-message">{{ data.message }}</p>
+  
+    <div class="dialog-actions">
+      <button class="btn btn-cancel" (click)="onCancel()">Cancel</button>
+      <button class="btn btn-confirm" (click)="onConfirm()">Confirm</button>
+    </div>
+  </div>

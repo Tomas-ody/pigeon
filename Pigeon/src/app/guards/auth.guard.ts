@@ -13,10 +13,9 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
   const decision = authService.isLoggedIn();
 
   if (!decision) {
-    console.log("authGuard, neprihlásený")
-    usersService.navigateAfterLogin = state.url; // kam chcel ist
+    usersService.navigateAfterLogin = state.url;
     router.navigateByUrl("/users/login");
-    messageService.successToast("You need to log in first", "X", 2000);
+    messageService.successToast("You need to login first", "X", 2000);
   }
   return decision;
 };

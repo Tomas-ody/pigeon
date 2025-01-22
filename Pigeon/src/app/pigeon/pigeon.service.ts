@@ -28,7 +28,6 @@ export class PigeonService {
   
 
   getUserPigeons(token: any): Observable<Pigeon[]> {
-    //const token = localStorage.getItem("umToken");
     const pigeons: Pigeon[] = [];
 
     if (token) {
@@ -37,7 +36,7 @@ export class PigeonService {
         map(response => {
           
           response.data.forEach(jsonPigeon => {
-            pigeons.push(Pigeon.clone(jsonPigeon)); // Manuálne pridávanie do poľa
+            pigeons.push(Pigeon.clone(jsonPigeon));
           });
           return pigeons;
         })
@@ -50,23 +49,25 @@ export class PigeonService {
     }
   }  
 
+  getPigeon(id: number): Observable<Pigeon> {
+    return this.http.get<Pigeon>(this.serverUrl + "pigeons/pigeon/" + id);
+  }
 
   getPigeons(): Observable<Pigeon[]> {
     const pigeons: Pigeon[] = [];
     return this.http.get<{ data: Pigeon[]}>(this.serverUrl + "pigeons/list").pipe(
       mergeMap(response => {
-        // Mapujeme všetky `ownerId` na observables na získanie používateľov
+
         const observables = response.data.map(jsonPigeon =>
           this.userService.getOtherUser(jsonPigeon.ownerId).pipe(
             map(user => {
               const tempPigeon = Pigeon.clone(jsonPigeon);
-              tempPigeon.owner = User.clone(user); // Nastavenie vlastníka
+              tempPigeon.owner = User.clone(user); 
               return tempPigeon;
             })
           )
         );
-  
-        // Použijeme forkJoin na získanie všetkých výsledkov naraz
+
         return forkJoin(observables);
       })
     );
@@ -94,12 +95,10 @@ export class PigeonService {
   }
 
   updatePigeon(pigeon: Pigeon): Observable<boolean> {
-    console.log("updatePigeon");
     return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon);
   }
 
   deletePigeon(pigeonId: number): Observable<boolean> {
-    console.log("deletePigeon");
     return this.http.delete<boolean>(this.serverUrl + "pigeons/delete/" + pigeonId);
   }
 
@@ -112,8 +111,6 @@ export class PigeonService {
       if (err.status >= 400 && err.status < 500) {
         const msg = err.error.errorMessage || JSON.parse(err.error).errorMessage;
         if (msg === "unknown token") {
-          //this.token = '';
-          //this.username = ''; 
           this.messageService.errorToast("Session lost, please log in again", 'X', 100000);
           this.router.navigateByUrl("/login");
           return EMPTY;
@@ -135,4 +132,8 @@ export class PigeonService {
       data: pigeon
     })
   };
+
+  openFamilyTree(id: number) {
+    this.router.navigateByUrl('/pigeon/family-tree/' + id);
+  }
 }

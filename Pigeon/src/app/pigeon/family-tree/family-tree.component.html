@@ -1,1 +1,28 @@
-<p>family-tree works!</p>
+<h1>Family Pigeon Tree</h1>
+@if (papaPigeon) {
+    <h2>Mother</h2>
+    <div>{{papaPigeon.name}}</div>
+    <div>{{papaPigeon.breed}}</div>
+    <div>{{papaPigeon.color}}</div>
+    <div (click)="openProfile(papaPigeon.owner)">{{papaPigeon.owner?.username}}</div>
+}
+@if (mamaPigeon) {
+    <h2>Father</h2>
+    <div>{{mamaPigeon.name}}</div>
+    <div>{{mamaPigeon.breed}}</div>
+    <div>{{mamaPigeon.color}}</div>
+    <div (click)="openProfile(mamaPigeon.owner)">{{mamaPigeon.owner?.username}}</div>
+}
+<h2>Current pigeon</h2>
+<div>{{pigeon?.name}}</div>
+<div>{{pigeon?.breed}}</div>
+<div>{{pigeon?.color}}</div>
+<div (click)="openProfile(pigeon?.owner)">{{pigeon?.owner?.username}}</div>
+
+@for (child of childrenPigeons; track $index) {
+    <h2>Child</h2>
+    <div>{{child.name}}</div>
+    <div>{{child.breed}}</div>
+    <div>{{child.color}}</div>
+    <div (click)="openProfile(child.owner)">{{child.owner?.username}}</div>
+}

@@ -11,6 +11,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { subscribe } from 'diagnostics_channel';
 import { MessageService } from '../../shared/message.service';
 import { Observable } from 'rxjs';
+import { ConfirmationComponent } from '../../shared/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-profile',
@@ -31,7 +32,8 @@ export class ProfileComponent implements OnInit {
     private pigeonService: PigeonService,
     private authService: AuthService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialog: MatDialog
   ) { }
 
   route = inject(ActivatedRoute);
@@ -49,6 +51,8 @@ export class ProfileComponent implements OnInit {
           this.ownProfile = status;
         })
 
+        
+
         console.log(status)
         const token = localStorage.getItem("Token");
         if (this.route.snapshot.paramMap.get('id')) {
@@ -57,12 +61,15 @@ export class ProfileComponent implements OnInit {
             console.log("INY POUŽIVATEĽ")
             this.loadDataOtherUser(id);
             this.loadDataPigeonsOtherUser(id);
+            
           })
         }
         else {
           this.loadDataUser();
           this.loadDataPigeons(token);
         }
+
+        
       }
     });
   }
@@ -86,7 +93,8 @@ export class ProfileComponent implements OnInit {
   loadDataUser() {
     this.userService.getUser().subscribe({
       next: (user: User) => {
-        this.user = user;
+        this.user = User.clone(user);
+        this.authService.setUserEmail(this.user.email);
         this.showError = false;
       },
       error: err => {
@@ -116,9 +124,28 @@ export class ProfileComponent implements OnInit {
   }
 
   deletePigeon(pigeonId: number) {
-    this.pigeonService.deletePigeon(pigeonId).subscribe(() => {
-      this.loadDataPigeons(localStorage.getItem("Token"));
-      this.messageService.successToast("Pigeon deleted successfully", "X", 2000);
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirm Deletion',
+        message: 'Are you sure you want to delete this Pigeon?'
+      }
     });
+
+    
+    
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.pigeonService.deletePigeon(pigeonId).subscribe(() => {
+          this.loadDataPigeons(localStorage.getItem("Token"));
+          this.messageService.successToast("Pigeon deleted successfully", "X", 2000);
+        });
+      }
+    });
+  }
+
+  goToFamilyTree(pigeon: Pigeon) {
+    this.pigeonService.openFamilyTree(pigeon.id);
   }
 }
