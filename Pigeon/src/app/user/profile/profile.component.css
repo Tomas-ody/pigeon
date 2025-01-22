@@ -13,8 +13,9 @@
     min-width: 220px;
     max-width: 250px;
 }
+
 .pigeonCard ul {
-   height: 150px;
+    height: 150px;
 }
 
 .buttons {
@@ -26,20 +27,71 @@
 
 .buttons button {
     background-color: #1DB954;
-    font-weight:500;
+    font-weight: 500;
     color: #FFFFFF;
     width: 60px;
-}
-.mat-mdc-unelevated-button{
-    background-color: #1DB954;
-    font-weight:500;
-    color: #FFFFFF;
-}
-/*
-.buttons .delete_button {
-    background-color: rgb(255, 101, 101);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    transition: background-color 0.3s;
 }
 
-.buttons .edit_button {
-    background-color: rgb(96, 186, 255);
-}*/
+.buttons button:hover {
+    background-color: #1AAE3D;
+}
+
+.mat-mdc-unelevated-button {
+    background-color: #1DB954;
+    font-weight: 500;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.mat-mdc-unelevated-button:hover {
+    background-color: #1AAE3D;
+}
+
+.circle {
+    width: 150px;
+    height: 150px;
+    border: 2px solid black;
+    border-radius: 50%;   
+    display: flex;         
+    justify-content: center; 
+    align-items: center;   
+    overflow: hidden;       
+}
+
+.circle-image {
+    width: 100%;           
+    height: auto;          
+    background-color: white;
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.pigeon-list-top{
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.profile-body {
+   
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}

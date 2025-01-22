@@ -1,14 +1,33 @@
-.ng-star-inserted{
+.ng-star-inserted {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     min-width: 220px;
     max-width: 250px;
-    margin:5px;
-    
+    margin: 5px;
 }
 
-.pigeon-list{
+.pigeon-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.pigeon-item {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
+
+.pigeon-item .family_button {
+    background-color: #1DB954;
+    font-weight: bold;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    transition: background-color 0.3s;
+}
+
+.pigeon-item .family_button:hover {
+    background-color: #1AAE3D;
 }

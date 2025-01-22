@@ -3,18 +3,24 @@
       Server je nedostupný. Choď sa prejsť príď o 15 min.
     </div>
   }
-
-  <div>
+  <div class="profile-body">
+  <div class="profile">
+    <div class="circle">
+      <img  class="circle-image">
+  </div>
     <p>{{user?.username}}</p>
     <p>{{user?.role}}</p>
     <p>{{user?.email}}</p>
     <p>{{user?.phone}}</p>
   </div>
-  @if(ownProfile) {
-    <button mat-flat-button routerLink="/pigeon/add" routerLinkActive="active">Add Pigeon</button>
-  }
-  <div>
+  </div>
+  <div class="pigeon-list">
+    <div class="pigeon-list-top">
     <h3>Tvoji holuby:</h3>
+    @if(ownProfile) {
+      <button mat-flat-button routerLink="/pigeon/add" routerLinkActive="active">Add Pigeon</button>
+    }
+  </div>
     @if(userPigeons != null) {
       <div class="pigeonCards">
             @for (pigeon of userPigeons; track pigeon.name) {
@@ -24,8 +30,7 @@
                     <li>Name: {{pigeon.name}}</li>
                     <li>Breed: {{pigeon.breed}}</li>
                     <li>Color: {{pigeon.color}}</li>
-                    <li>FatherId: {{pigeon.fatherId}}</li>
-                    <li>MotherId: {{pigeon.motherId}}</li>
+                   
                   </ul>
                   <div class="buttons">
                     <button mat-flat-button class="edit_button" (click)="editPigeon(pigeon)">Edit</button>
