@@ -9,7 +9,7 @@
       <img  class="circle-image">
   </div>
     <p>{{user?.username}}</p>
-    <p>{{user?.role}}</p>
+    <p>{{(user?.role == "ROLE_ADMIN") ? "admin" : "user"}}</p>
     <p>{{user?.email}}</p>
     <p>{{user?.phone}}</p>
   </div>
