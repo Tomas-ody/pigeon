@@ -1,5 +1,22 @@
-.mat-mdc-unelevated-button{
-    background-color: #1DB954;
-    font-weight: bold;
-    color: #FFFFFF;
-  }
+.addForm{
+  margin: 20px;
+  padding:10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 325px;
+  
+}
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sub-btn{
+  background-color: #1DB954;
+  font-weight: bold;
+  color: #FFFFFF;
+  border: none;
+  height: 30px;
+  width: 60px;
+  border-radius: 5px;
+}
