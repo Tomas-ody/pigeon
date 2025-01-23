@@ -21,7 +21,6 @@ import { ConfirmationComponent } from '../../shared/confirmation/confirmation.co
 })
 export class ProfileComponent implements OnInit {
 
-  showError = false;
   user?: User;
   userPigeons?: Pigeon[];
   ownProfile: boolean = false;
@@ -42,7 +41,6 @@ export class ProfileComponent implements OnInit {
 
     this.authService.loggedIn$.subscribe((status) => {
       if (!status) {
-        console.log(status)
         this.user = undefined;
         this.userPigeons = undefined;
       } 
@@ -58,7 +56,7 @@ export class ProfileComponent implements OnInit {
         if (this.route.snapshot.paramMap.get('id')) {
           this.route.paramMap.subscribe(params => {
             const id = Number(params.get('id'));
-            console.log("INY POUŽIVATEĽ")
+
             this.loadDataOtherUser(id);
             this.loadDataPigeonsOtherUser(id);
             
@@ -95,13 +93,7 @@ export class ProfileComponent implements OnInit {
       next: (user: User) => {
         this.user = User.clone(user);
         this.authService.setUserEmail(this.user.email);
-        this.showError = false;
-      },
-      error: err => {
-        console.log("Chyba: ", err);
-        this.showError = true;
       }
-      
     });
   }
 
@@ -109,12 +101,6 @@ export class ProfileComponent implements OnInit {
     this.pigeonService.getUserPigeons(token).subscribe({
       next: (pigeons: Pigeon[]) => {
         this.userPigeons = pigeons;
-        console.log(pigeons);
-        this.showError = false;
-      },
-      error: err => {
-        console.log("Chyba: ", err);
-        this.showError = true;
       }
     });
   }

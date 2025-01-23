@@ -7,6 +7,7 @@ import { User } from '../pigeon/entities/user';
 import { Auth } from '../pigeon/entities/auth';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { AuthService } from './auth.service';
+import { ErrorHandler } from '../shared/errorHandler.service';
 
 export const DEFAULT_NAVIGATE_AFTER_LOGIN = '/users/profile';
 export const DEFAULT_NAVIGATE_AFTER_LOGOUT = '/users/login';
@@ -20,7 +21,8 @@ export class UserService {
     private http: HttpClient,
     private messageService: MessageService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private errorHandler: ErrorHandler
 ) { }
 
   serverUrl = "http://localhost:8080/";
@@ -56,7 +58,8 @@ export class UserService {
       map((jsonUser: User) => {
         const user = User.clone(jsonUser);
         return user;
-      })
+      }),
+      catchError(err => this.errorHandler.errorHandling(err, "Couldn't find the data of user."))
     )
   }
 
@@ -77,7 +80,7 @@ export class UserService {
           }
           return user;
         }), 
-        catchError(err => this.errorHandling(err, "We have technicall issues."))
+        catchError(err => this.errorHandler.errorHandling(err, "We have technicall issues."))
       );
     }
     return this.http.get<any>(this.serverUrl + "users/me");
@@ -93,7 +96,7 @@ export class UserService {
             });
             return users;
           }),
-          catchError(err => this.errorHandling(err, "Couldn't get all users."))
+          catchError(err => this.errorHandler.errorHandling(err, "Couldn't get all users."))
         );
   };
 
@@ -105,7 +108,7 @@ export class UserService {
         this.messageService.successToast("Login has been successful", 'X', 2000);
         return true;
       }),
-      catchError(err => this.errorHandling(err, "Invalid credentials"))
+      catchError(err => this.errorHandler.errorHandling(err, "Invalid credentials"))
     );
   }
 
@@ -115,32 +118,5 @@ export class UserService {
     this.authService.setPermissions(false);
     this.token = "";
     this.authService.setUserEmail("");
-  }
-
-  errorHandling(err: any, message?: string):Observable<never> {
-    if (err instanceof HttpErrorResponse) {
-      if (err.status === 0) {
-        this.messageService.errorToast("Server not accessible", 'X', 100000);
-        return EMPTY;
-      }
-      if (err.status >= 400 && err.status < 500) {
-        const msg = err.error.errorMessage || JSON.parse(err.error).errorMessage;
-        if (msg === "unknown token") {
-          this.token = '';
-          this.messageService.errorToast("Session lost, please log in again", 'X', 2000);
-          this.router.navigateByUrl("/login");
-          return EMPTY;
-        }
-        else {
-          this.messageService.errorToast((message || "Missing a message"), 'X', 2000);
-          return EMPTY;
-        }
-        
-      }
-      if (err.status >= 500)
-        this.messageService.errorToast("Server error, see log for details", 'X', 2000);
-    }
-    console.error(err);
-    return EMPTY;
   }
 }
