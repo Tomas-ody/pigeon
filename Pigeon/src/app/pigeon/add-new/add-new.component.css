@@ -1,5 +1,5 @@
 .addForm{
-  margin: 20px;
+  margin: 10px;
   padding:10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -19,4 +19,8 @@
   height: 30px;
   width: 60px;
   border-radius: 5px;
+}
+.buttons{
+  display: flex;
+  justify-content: space-evenly;
 }

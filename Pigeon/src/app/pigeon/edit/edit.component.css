@@ -1,7 +1,7 @@
 .mat-dialog-content {
     display: flex;
     flex-direction: column;
-    gap: 16px; /* Add spacing between inputs */
+    gap: 16px;
   }
   
   .mat-dialog-actions {
@@ -9,6 +9,13 @@
   }
   
   .full-width {
-    width: 100%; /* Ensure inputs take full width */
+    width: 100%;
+  }
+  .cancel-btn{
+    color: white;
+
+  }
+  .apply-btn{
+   color: white; 
   }
   

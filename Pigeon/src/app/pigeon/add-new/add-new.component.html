@@ -1,13 +1,9 @@
 <div class="container">
 <form class="addForm" id="animalForm" (ngSubmit)="onSubmit()" method="POST">
 
-<<<<<<< HEAD
-    <label for="pigeonId">Pigeon ID: </label>
-=======
 <form id="animalForm"  method="POST">
 
-    <label for="pigeonId">Pigeon ID:</label>
->>>>>>> 832b958675a3d450a94cc35441275bbe314135c7
+    <label for="pigeonId">Pigeon ID: </label>
     <input type="number" id="pigeonId" name="pigeonId"
     [(ngModel)]="pigeon.id">
     <br><br>
@@ -42,14 +38,13 @@
     [(ngModel)]="pigeon.breed">
     <br><br>
 
-<<<<<<< HEAD
-    <button class="sub-btn" type="submit">Add</button>
-</form>
-=======
     
 </form>
 <div class="buttons">
-    <button type="submit" (click)="onSubmit()">Add</button>
-    <button  routerLink="/users/profile" routerLinkActive="active" >Back</button>
->>>>>>> 832b958675a3d450a94cc35441275bbe314135c7
+    <div>
+    <button class="sub-btn" type="submit" (click)="onSubmit()">Add</button>
+</div>
+    <div>
+    <button class="sub-btn"  routerLink="/users/profile" routerLinkActive="active" >Back</button>
+</div>
 </div>
