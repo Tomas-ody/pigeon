@@ -45,4 +45,10 @@ export class AddNewComponent {
   });
       
     }
+
+    goBack() {
+      this.auth.setLoggedIn(true);
+      this.auth.setOwnProfile(true);
+      //this.router.navigateByUrl("/users/profile");
+    }
   }
