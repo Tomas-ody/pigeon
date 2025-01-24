@@ -10,6 +10,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { response } from 'express';
 import { UserService } from '../user/user.service';
 import { User } from './entities/user';
+import { ErrorHandler } from '../shared/errorHandler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class PigeonService {
     private http: HttpClient,
     private messageService: MessageService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private errorHandler: ErrorHandler
 ) { }
   userService = inject(UserService);
   serverUrl = "http://localhost:8080/";
@@ -44,7 +46,6 @@ export class PigeonService {
     }
     
     else {
-      console.log("getUserPigeons token is not");
       return this.http.get<any[]>(this.serverUrl + "pigeons/owner");
     }
   }  
@@ -65,7 +66,8 @@ export class PigeonService {
               tempPigeon.owner = User.clone(user); 
               return tempPigeon;
             })
-          )
+          ),
+          catchError(err => this.errorHandler.errorHandling(err, "Couldn't get pigeons"))
         );
 
         return forkJoin(observables);
@@ -81,16 +83,16 @@ export class PigeonService {
           pigeons.push(Pigeon.clone(jsonPigeon));
         });
         return pigeons;
-      })
+      }),
+      catchError(err => this.errorHandler.errorHandling(err, "Couldn't get data of pigeons"))
     )
   }
 
   sendAddNewPigeon(pigeon: Pigeon, token: any): Observable<Pigeon> {
-    console.log("sending data to server");
     return this.http.post<Pigeon>(this.serverUrl + "pigeons/add", pigeon, {headers : {Authorization: token}}).pipe(
       
       map(jsonPigeon => Pigeon.clone(jsonPigeon)),
-      //catchError(err => this.errorHandling(err))
+      catchError(err => this.errorHandler.errorHandling(err, "Couldn't send data"))
     );
   }
 
@@ -102,31 +104,10 @@ export class PigeonService {
     return this.http.delete<boolean>(this.serverUrl + "pigeons/delete/" + pigeonId);
   }
 
-  errorHandling(err: any):Observable<never> {
-    if (err instanceof HttpErrorResponse) {
-      if (err.status === 0) {
-        this.messageService.errorToast("Server not accessible", 'X', 100000);
-        return EMPTY;
-      }
-      if (err.status >= 400 && err.status < 500) {
-        const msg = err.error.errorMessage || JSON.parse(err.error).errorMessage;
-        if (msg === "unknown token") {
-          this.messageService.errorToast("Session lost, please log in again", 'X', 100000);
-          this.router.navigateByUrl("/login");
-          return EMPTY;
-        }
-        this.messageService.errorToast(msg, 'X', 100000);
-        return EMPTY;
-      }
-      // status >= 500
-      this.messageService.errorToast("Server error, see log for details", 'X', 100000);
-    }
-    console.error(err);
-    return EMPTY;
-  }
+  
 
   editPigeon(pigeon: Pigeon) {
-    let editWindow = this.dialog.open(EditComponent, {
+    this.dialog.open(EditComponent, {
       height: '400px',
       width: '600px',
       data: pigeon

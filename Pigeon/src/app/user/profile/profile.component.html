@@ -1,8 +1,3 @@
-@if(showError) {
-    <div role="alert">
-      Server je nedostupný. Choď sa prejsť príď o 15 min.
-    </div>
-  }
   <div class="profile-body">
   <div class="profile">
     <div class="circle">
@@ -35,7 +30,10 @@
                   <div class="buttons">
                     <button mat-flat-button class="edit_button" (click)="editPigeon(pigeon)">Edit</button>
                     <button mat-flat-button class="family_button" (click)="goToFamilyTree(pigeon)">Family</button>
-                    <button mat-flat-button class="delete_button" (click)="deletePigeon(pigeon.id)">Delete</button>
+                    @if (ownProfile || permission) {
+                      <button mat-flat-button class="delete_button" (click)="deletePigeon(pigeon.id)">Delete</button>
+                    }
+                    
                   </div>
                 </div>
             }
