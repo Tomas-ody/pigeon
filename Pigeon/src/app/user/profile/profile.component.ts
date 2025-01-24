@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   user?: User;
   userPigeons?: Pigeon[];
   ownProfile: boolean = false;
+  permission: boolean = false;
 
   constructor (
     private userService: UserService,
@@ -47,6 +48,9 @@ export class ProfileComponent implements OnInit {
       else {
         this.authService.ownProfile$.subscribe((status) => {
           this.ownProfile = status;
+        })
+        this.authService.permissions$.subscribe((status) => {
+          this.permission = status;
         })
 
         
