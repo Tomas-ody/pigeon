@@ -30,5 +30,6 @@
 
 .pigeon-item .family_button:hover {
     background-color: #1AAE3D;
+    cursor: pointer;
 }
 

@@ -29,15 +29,23 @@
   }
   
   .btn-cancel {
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #817f7f;
+    font-weight: bold;
+    color: #FFFFFF;
   }
   
   .btn-confirm {
-    background-color: #007bff;
-    color: white;
+    background-color: #1DB954;
+    font-weight: bold;
+    color: #FFFFFF;
   }
   
   .btn:hover {
     opacity: 0.9;
+  }
+  .dialog-title{
+    color: white;
+  }
+  .dialog-message{
+    color: white;
   }
