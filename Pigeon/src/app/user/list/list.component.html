@@ -3,7 +3,7 @@
     <div class="user-item" (click)="showOtherProfile(user.id)">
       <div class="user-info">
         <div class="user-name">Name: {{user.username}}</div>
-        <div class="user-role">Role: {{user.role}}</div>
+        <div class="user-role">Role: {{(user?.role == "ROLE_ADMIN") ? "admin" : "user"}}</div>
         <div class="user-phone">Phone: {{user.phone}}</div>
         <div class="user-email">Email: {{user.email}}</div>
       </div>

@@ -35,7 +35,6 @@ export class UserService {
 
 
   set token(value: string | null) {
-    if (typeof window !== 'undefined' && localStorage) {
       if (value) {
         try {
           const parsedValue = JSON.parse(value); 
@@ -50,7 +49,6 @@ export class UserService {
       } else {
         localStorage.removeItem('Token'); 
       }
-    }
   }
 
   getOtherUser(id: number): Observable<User> {
@@ -102,8 +100,8 @@ export class UserService {
 
   login(auth: Auth): Observable<boolean> {
     return this.http.post(this.serverUrl + "auth/login", auth, {responseType: 'text'}).pipe(
-      map(token => {
-        this.token = token;
+      map(response => {
+        this.token = response;
        
         this.messageService.successToast("Login has been successful", 'X', 2000);
         return true;
