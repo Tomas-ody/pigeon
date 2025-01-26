@@ -6,7 +6,7 @@
           <li>Name: {{pigeon.name}}</li>
           <li>Breed: {{pigeon.breed}}</li>
           <li>Color: {{pigeon.color}}</li>
-          <li (click)="goToProfile(pigeon.ownerId)">Owner: {{pigeon.owner?.username}}</li>
+          <li class="owner-btn" (click)="goToProfile(pigeon.ownerId)">Owner: {{pigeon.owner?.username}}</li>
         </ul>
         <button mat-flat-button class="family_button" (click)="goToFamilyTree(pigeon)">Family</button>
       </div>
