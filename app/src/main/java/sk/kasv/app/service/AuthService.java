@@ -24,7 +24,7 @@ public class AuthService {
             return null;
         }
         System.out.println("Id of user is: " + user.get().getId());
-        String token = jwtTokenProvider.createToken(user.get().getUsername(), user.get().isAdmin(), user.get().getId()
+        String token = jwtTokenProvider.createToken(user.get().getUsername(), user.get().isAdmin()
         );
         return new AuthResponse(token);
     }

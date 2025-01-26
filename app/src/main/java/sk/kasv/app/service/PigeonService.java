@@ -1,5 +1,7 @@
 package sk.kasv.app.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import sk.kasv.app.entity.Pigeon;
 import sk.kasv.app.entity.User;
@@ -23,9 +25,10 @@ public class PigeonService {
         pigeonStorage.put(4, new Pigeon(4, "ratatui", "grey", "frost", 1));
         pigeonStorage.put(5, new Pigeon(5, "Yogi", "brown", "speedy", 3));
         List<Integer> list3 = new ArrayList<>();
-        list3.add(4,5);
-        pigeonStorage.put(6, new Pigeon(7, 2,"Milan", list3,  "White", 1, "Marchello", 1));
-        pigeonStorage.put(7, new Pigeon(8, 2, "Anastázia", "purple", "Anastázia", 1));
+        list3.add(4);
+        list3.add(5);
+        pigeonStorage.put(6, new Pigeon(6, 2,"Milan", list3,  "White", 1, "Marchello", 1));
+        pigeonStorage.put(7, new Pigeon(7, 2, "Anastázia", "purple", 1, "formula", 1));
     }
 
     public List<Pigeon> getAllPigeons() {

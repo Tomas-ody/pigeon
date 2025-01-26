@@ -20,10 +20,10 @@ public class JwtTokenProvider {
     @Autowired
     private UserService userService;
 
-    public String createToken(String username, boolean admin, Integer id) {
+    public String createToken(String username, boolean admin) {
         return Jwts.builder()
                 .setSubject(username)
-                .claim("admin", admin)//.claim("id", id)
+                .claim("admin", admin)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + VALIDITY))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
@@ -37,6 +37,8 @@ public class JwtTokenProvider {
     public Boolean getRole(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().get("admin", Boolean.class);
     }
+
+
     public int getId(String token) {
         List<User> list = userService.getAllUsers(0);
         for (User user : list) {

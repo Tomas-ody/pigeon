@@ -1,5 +1,6 @@
 package sk.kasv.app.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.kasv.app.entity.User;
 
@@ -18,6 +19,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Autowired
     public UserService() {
         // Add a default admin and user for testing
         userStorage.put(1, new User(1, "admin", "admin", true, "admin@pigeon.sk", "+421545878966"));
