@@ -8,7 +8,7 @@
             <div>Name:  {{papaPigeon.name}}</div>
             <div>Breed: {{papaPigeon.breed}}</div>
             <div>Color:  {{papaPigeon.color}}</div>
-            <div (click)="openProfile(papaPigeon.owner)">Owner: {{papaPigeon.owner?.username}}</div>
+            <div class="owner-btn" (click)="openProfile(papaPigeon.owner)">Owner: {{papaPigeon.owner?.username}}</div>
         </div>
         }
         
@@ -19,7 +19,7 @@
             <div>Name:  {{mamaPigeon.name}}</div>
             <div>Breed: {{mamaPigeon.breed}}</div>
             <div>Color: {{mamaPigeon.color}}</div>
-            <div (click)="openProfile(mamaPigeon.owner)">Owner: {{mamaPigeon.owner?.username}}</div>
+            <div class="owner-btn" (click)="openProfile(mamaPigeon.owner)">Owner: {{mamaPigeon.owner?.username}}</div>
         </div>
         }
     </div>
@@ -29,7 +29,7 @@
         <div>Name:  {{pigeon?.name}}</div>
         <div>Breed: {{pigeon?.breed}}</div>
         <div>Color: {{pigeon?.color}}</div>
-        <div (click)="openProfile(pigeon?.owner)">Owner: {{pigeon?.owner?.username}}</div>
+        <div class="owner-btn" (click)="openProfile(pigeon?.owner)">Owner: {{pigeon?.owner?.username}}</div>
     </div>
     <div class="children">
         @for (child of childrenPigeons; track $index){
@@ -38,7 +38,7 @@
             <div>Name: {{child.name}}</div>
             <div>Breed: {{child.breed}}</div>
             <div>{{child.color}}</div>
-            <div (click)="openProfile(child.owner)">{{child.owner?.username}}</div>
+            <div class="owner-btn" (click)="openProfile(child.owner)">{{child.owner?.username}}</div>
         </div>
         }
     </div>
