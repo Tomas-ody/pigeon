@@ -41,7 +41,8 @@ export class PigeonService {
             pigeons.push(Pigeon.clone(jsonPigeon));
           });
           return pigeons;
-        })
+        }),
+        catchError(err => this.errorHandler.errorHandling(err, "Couldn't get pigeons from the server."))
       );
     }
     
@@ -67,7 +68,7 @@ export class PigeonService {
               return tempPigeon;
             })
           ),
-          catchError(err => this.errorHandler.errorHandling(err, "Couldn't get pigeons"))
+          catchError(err => this.errorHandler.errorHandling(err, "Couldn't get pigeons from server"))
         );
 
         return forkJoin(observables);
@@ -92,7 +93,7 @@ export class PigeonService {
     return this.http.post<Pigeon>(this.serverUrl + "pigeons/add", pigeon, {headers : {Authorization: token}}).pipe(
       
       map(jsonPigeon => Pigeon.clone(jsonPigeon)),
-      catchError(err => this.errorHandler.errorHandling(err, "Couldn't send data"))
+      catchError(err => this.errorHandler.errorHandling(err, "Couldn't send data to a server."))
     );
   }
 
