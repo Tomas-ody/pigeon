@@ -46,11 +46,11 @@ export class ProfileComponent implements OnInit {
         this.userPigeons = undefined;
       } 
       else {
-        this.authService.ownProfile$.subscribe((status) => {
-          this.ownProfile = status;
+        this.authService.ownProfile$.subscribe((profileStatus) => {
+          this.ownProfile = profileStatus;
         })
-        this.authService.permissions$.subscribe((status) => {
-          this.permission = status;
+        this.authService.permissions$.subscribe((perStatus) => {
+          this.permission = perStatus;
         })
 
         
