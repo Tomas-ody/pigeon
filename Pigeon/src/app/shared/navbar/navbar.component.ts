@@ -22,11 +22,11 @@ export class NavbarComponent implements OnInit {
   permissions: boolean = false;
 
   ngOnInit(): void {
-    this.authService.loggedIn$.subscribe((status) => {
-      this.loggedIn = status; 
+    this.authService.loggedIn$.subscribe((loggedStatus) => {
+      this.loggedIn = loggedStatus; 
     });
-    this.authService.permissions$.subscribe((status) => {
-      this.permissions = status;
+    this.authService.permissions$.subscribe((perStatus) => {
+      this.permissions = perStatus;
     })
   }
 
