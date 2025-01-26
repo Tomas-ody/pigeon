@@ -45,3 +45,13 @@
     border-radius: 15px;
     width: 150px;
 }
+
+:hover.owner-btn{
+    cursor: pointer;   
+    color: #1DB954;
+    font-weight: bold;
+}
+.owner-btn{
+    color:rgba(10, 110, 168, 0.761);
+    font-weight: bold;
+}
