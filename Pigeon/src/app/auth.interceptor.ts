@@ -5,13 +5,10 @@ export const JwtInterceptor: HttpInterceptorFn = (req, next) => {
   const token = localStorage.getItem('Token');
 
   if (token) {
-    console.log('token');
     const reqWithHeader = req.clone({
       headers: req.headers.set('Authorization', "Bearer " + token),
     });
     return next(reqWithHeader);
-  } else {
-    console.log('no token');
   }
 
   return next(req);
