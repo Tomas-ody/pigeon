@@ -29,8 +29,9 @@ export class EditComponent {
   }
 
   onApply() {
+    const token = localStorage.getItem("Token");
     this.pigeon.kidsId = this.kidsId;
-    this.pigeonService.updatePigeon(this.pigeon).subscribe(
+    this.pigeonService.updatePigeon(this.pigeon, token).subscribe(
       (response) => {
         if (response) {
           this.messageService.successToast("Pigeon " + this.pigeon.name + " has been updated", "X", 2000);
@@ -43,11 +44,14 @@ export class EditComponent {
   kidsIdString: string = '';
 
   get kidsId(): number[] {
-    this.kidsIdString = this.pigeon.kidsId.toString();
-    return this.kidsIdString
+    if (this.pigeon.kidsId != null) {
+      this.kidsIdString = this.pigeon.kidsId.toString();
+      return this.kidsIdString
       .split(',')
       .map((id: string) => parseInt(id.trim(), 10))
       .filter((id: number) => !isNaN(id));
+    }
+    return [];
   }
 
   set kidsId(value: number[]) {

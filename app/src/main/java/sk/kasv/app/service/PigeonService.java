@@ -36,7 +36,7 @@ public class PigeonService {
     }
 
     public Pigeon getPigeonById(int id) {
-        return pigeonStorage.get(id);
+        return pigeonStorage.values().stream().filter(p -> p.getId() == id).findFirst().get();
     }
 
     public List<Pigeon> getPigeonsByOwner(int ownerId) {
@@ -50,13 +50,25 @@ public class PigeonService {
     }
 
     public Pigeon addPigeon(Pigeon pigeon) {
-        pigeon.setId(++pigeonIdCounter);
-        pigeonStorage.put(pigeon.getId(), pigeon);
+        //pigeon.setId(++pigeonIdCounter);
+        pigeonStorage.put(++pigeonIdCounter, pigeon);
         return pigeon;
     }
 
-    public Pigeon updatePigeon(int id, Pigeon updatedPigeon) {
-        Pigeon existingPigeon = pigeonStorage.get(id);
+    public Pigeon updatePigeon(Pigeon updatedPigeon) {
+
+        int pigeonIndex = 0;
+
+        for (Map.Entry<Integer, Pigeon> entry : pigeonStorage.entrySet()) {
+            if (entry.getValue().getId() == updatedPigeon.getId()) {
+                pigeonIndex = entry.getKey();
+            }
+        }
+
+        Pigeon existingPigeon = pigeonStorage.values().stream()
+                .filter(p -> p.getId() == updatedPigeon.getId())
+                        .findFirst().get();
+
         if (existingPigeon == null) {
             throw new RuntimeException("Pigeon not found");
         }
@@ -67,17 +79,26 @@ public class PigeonService {
         existingPigeon.setMotherId(updatedPigeon.getMotherId());
         existingPigeon.setFatherId(updatedPigeon.getFatherId());
         existingPigeon.setKidsId(updatedPigeon.getKidsId());
-        pigeonStorage.put(id, existingPigeon);
 
-        return existingPigeon;
+        pigeonStorage.put(pigeonIndex, existingPigeon);
+
+        return updatedPigeon;
     }
 
     public void deletePigeon(int id) {
-        Pigeon existingPigeon = pigeonStorage.get(id);
+        Pigeon existingPigeon = pigeonStorage.values().stream().filter(p -> p.getId() == id).findFirst().get();
         if (existingPigeon == null) {
             throw new RuntimeException("Pigeon not found");
         }
 
-        pigeonStorage.remove(id);
+        int pigeonIndex = 0;
+
+        for (Map.Entry<Integer, Pigeon> entry : pigeonStorage.entrySet()) {
+            if (entry.getValue().getId() == id) {
+                pigeonIndex = entry.getKey();
+            }
+        }
+
+        pigeonStorage.remove(pigeonIndex);
     }
 }

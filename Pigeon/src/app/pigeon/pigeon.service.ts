@@ -40,6 +40,7 @@ export class PigeonService {
           response.data.forEach(jsonPigeon => {
             pigeons.push(Pigeon.clone(jsonPigeon));
           });
+          console.log(pigeons);
           return pigeons;
         }),
         catchError(err => this.errorHandler.errorHandling(err, "Couldn't get pigeons from the server."))
@@ -70,7 +71,7 @@ export class PigeonService {
           ),
           catchError(err => this.errorHandler.errorHandling(err, "Couldn't get pigeons from server"))
         );
-
+        console.log(observables);
         return forkJoin(observables);
       })
     );
@@ -97,8 +98,10 @@ export class PigeonService {
     );
   }
 
-  updatePigeon(pigeon: Pigeon): Observable<boolean> {
-    return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon);
+  updatePigeon(pigeon: Pigeon, token: any): Observable<boolean> {
+    return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon, {headers : {Authorization: token}} ).pipe(
+      catchError(err => this.errorHandler.errorHandling(err, "Could't update a pigeon. Please try it again later."))
+    );
   }
 
   deletePigeon(pigeonId: number): Observable<boolean> {
