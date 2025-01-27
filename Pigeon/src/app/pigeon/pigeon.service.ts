@@ -34,7 +34,7 @@ export class PigeonService {
 
     if (token) {
       console.log("getUserPigeons token is");
-      return this.http.get<{ data: Pigeon[]}>(this.serverUrl + "pigeons/owner", { headers: {Authorization: token}}).pipe(
+      return this.http.get<{ data: Pigeon[]}>(this.serverUrl + "pigeons/owner").pipe(
         map(response => {
           
           response.data.forEach(jsonPigeon => {
@@ -90,7 +90,7 @@ export class PigeonService {
   }
 
   sendAddNewPigeon(pigeon: Pigeon, token: any): Observable<Pigeon> {
-    return this.http.post<Pigeon>(this.serverUrl + "pigeons/add", pigeon, {headers : {Authorization: token}}).pipe(
+    return this.http.post<Pigeon>(this.serverUrl + "pigeons/add", pigeon/*, {headers : {Authorization: token}}*/).pipe(
       
       map(jsonPigeon => Pigeon.clone(jsonPigeon)),
       catchError(err => this.errorHandler.errorHandling(err, "Couldn't send data to a server."))

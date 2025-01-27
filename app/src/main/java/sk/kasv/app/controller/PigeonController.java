@@ -54,6 +54,10 @@ public class PigeonController {
     @CrossOrigin
     @PostMapping("/add")
     public ResponseEntity<Boolean> addPigeon(@RequestBody JSONObject request, @AuthenticationPrincipal UserDetailsImpl currentUser) {
+        if (currentUser == null) {
+            return ResponseEntity.status(400).body(false);
+        }
+
         System.out.println("addPigeon");
         Pigeon pigeon = new Pigeon();
         pigeon.setName(ConverterFromJson.getString(request, "name"));

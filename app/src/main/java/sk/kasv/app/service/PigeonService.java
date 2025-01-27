@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class PigeonService {
     private final Map<Integer, Pigeon> pigeonStorage = new HashMap<>();
-    private int pigeonIdCounter = 5;
+    private int pigeonIdCounter = 7;
 
     public PigeonService() {
         List<Integer> list1 = new ArrayList<>();
