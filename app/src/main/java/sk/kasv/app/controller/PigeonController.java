@@ -36,7 +36,10 @@ public class PigeonController {
 
     @CrossOrigin
     @GetMapping("/owner/{id}")
-    public ResponseEntity<JSONObject> getAllPigeonsOfUser(@PathVariable int id) {
+    public ResponseEntity<JSONObject> getAllPigeonsOfUser(@PathVariable int id, @AuthenticationPrincipal UserDetailsImpl currentUser) {
+        if (currentUser == null) {
+            return ResponseEntity.status(200).body(ConverterToJson.jsonMessage("You have to be registered."));
+        }
         return ResponseEntity.status(200).body(ConverterToJson.createListOfPigeons(pigeonService.getPigeonsByOwner(id)));
     }
 
