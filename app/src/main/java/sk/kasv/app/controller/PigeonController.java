@@ -67,7 +67,11 @@ public class PigeonController {
 
     @CrossOrigin
     @PostMapping("/update")
-    public ResponseEntity<Boolean> updatePigeon(@RequestBody JSONObject request) {
+    public ResponseEntity<Boolean> updatePigeon(@RequestBody JSONObject request, @AuthenticationPrincipal UserDetailsImpl currentUser) {
+        if (currentUser == null) {
+            return ResponseEntity.status(400).body(false);
+        }
+
         System.out.println("updatujem holuba");
         Pigeon updatedPigeon = new Pigeon();
         updatedPigeon.setName(ConverterFromJson.getString(request, "name"));
@@ -89,8 +93,13 @@ public class PigeonController {
 
     @CrossOrigin
     @DeleteMapping("delete/{id}")
-    public void deletePigeon(@PathVariable int id) {
+    public ResponseEntity<Boolean> deletePigeon(@PathVariable int id, @AuthenticationPrincipal UserDetailsImpl currentUser) {
+        if (currentUser == null) {
+            return ResponseEntity.status(400).body(false);
+        }
+
         System.out.println("deletePigeon");
         pigeonService.deletePigeon(id);
+        return ResponseEntity.status(200).body(true);
     }
 }
