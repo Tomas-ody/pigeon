@@ -99,7 +99,7 @@ export class PigeonService {
   }
 
   updatePigeon(pigeon: Pigeon, token: any): Observable<boolean> {
-    return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon, {headers : {Authorization: token}} ).pipe(
+    return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon/*, {headers : {Authorization: token}}*/ ).pipe(
       catchError(err => this.errorHandler.errorHandling(err, "Could't update a pigeon. Please try it again later."))
     );
   }

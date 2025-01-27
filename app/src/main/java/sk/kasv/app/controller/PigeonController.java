@@ -111,4 +111,10 @@ public class PigeonController {
         pigeonService.deletePigeon(id);
         return ResponseEntity.status(200).body(true);
     }
+
+    @CrossOrigin
+    @GetMapping("/id")
+    public ResponseEntity<JSONObject> getPigeonsId() {
+        return ResponseEntity.status(200).body(ConverterToJson.pigeonsIdList(pigeonService.idOfPigeons()));
+    }
 }

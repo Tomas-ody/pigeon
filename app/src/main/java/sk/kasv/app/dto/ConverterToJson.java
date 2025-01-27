@@ -91,4 +91,10 @@ public class ConverterToJson {
         jsonObject.put("message", message);
         return jsonObject;
     }
+
+    public static JSONObject pigeonsIdList(List<Integer> list) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("data", list);
+        return jsonObject;
+    }
 }

@@ -101,4 +101,14 @@ public class PigeonService {
 
         pigeonStorage.remove(pigeonIndex);
     }
+
+    public List<Integer> idOfPigeons() {
+        List<Integer> list = new ArrayList<>();
+
+        for (Map.Entry<Integer, Pigeon> entry : pigeonStorage.entrySet()) {
+            list.add(entry.getValue().getId());
+        }
+
+        return list;
+    }
 }
