@@ -10,6 +10,7 @@ import { MessageService } from '../../shared/message.service';
 @Component({
   selector: 'app-edit',
   imports: [MatDialogModule, MatFormField, MatLabel, MaterialModule],
+
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css'
 })
@@ -42,6 +43,7 @@ export class EditComponent {
   kidsIdString: string = '';
 
   get kidsId(): number[] {
+    this.kidsIdString = this.pigeon.kidsId.toString();
     return this.kidsIdString
       .split(',')
       .map((id: string) => parseInt(id.trim(), 10))

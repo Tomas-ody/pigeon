@@ -38,6 +38,7 @@ export class AddNewComponent {
       this.pigeonService.sendAddNewPigeon(this.pigeon, token).subscribe({
         next: success => {
           if (success) {
+            console.log("add pigeon");
             this.auth.setLoggedIn(true);
             this.router.navigateByUrl("/users/profile");
           } 

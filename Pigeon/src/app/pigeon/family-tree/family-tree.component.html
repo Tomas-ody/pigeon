@@ -37,8 +37,8 @@
             <h2>Child</h2>
             <div>Name: {{child.name}}</div>
             <div>Breed: {{child.breed}}</div>
-            <div>{{child.color}}</div>
-            <div class="owner-btn" (click)="openProfile(child.owner)">{{child.owner?.username}}</div>
+            <div>Color: {{child.color}}</div>
+            <div class="owner-btn" (click)="openProfile(child.owner)">Owner: {{child.owner?.username}}</div>
         </div>
         }
     </div>
