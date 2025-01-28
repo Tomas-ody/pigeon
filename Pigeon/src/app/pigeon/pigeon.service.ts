@@ -52,7 +52,9 @@ export class PigeonService {
   }  
 
   getPigeon(id: number): Observable<Pigeon> {
-    return this.http.get<Pigeon>(this.serverUrl + "pigeons/pigeon/" + id);
+    return this.http.get<Pigeon>(this.serverUrl + "pigeons/pigeon/" + id).pipe(
+      catchError(err => this.errorHandler.errorHandling(err, "Couldn't get data from a server."))
+      );;
   }
 
   getPigeons(): Observable<Pigeon[]> {
@@ -98,11 +100,15 @@ export class PigeonService {
   }
 
   updatePigeon(pigeon: Pigeon): Observable<boolean> {
-    return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon);
+    return this.http.post<boolean>(this.serverUrl + "pigeons/update", pigeon).pipe(
+    catchError(err => this.errorHandler.errorHandling(err, "Couldn't send data to a server."))
+    );
   }
 
   deletePigeon(pigeonId: number): Observable<boolean> {
-    return this.http.delete<boolean>(this.serverUrl + "pigeons/delete/" + pigeonId);
+    return this.http.delete<boolean>(this.serverUrl + "pigeons/delete/" + pigeonId).pipe(
+      catchError(err => this.errorHandler.errorHandling(err, "Couldn't delete data from a server."))
+      );
   }
 
   
