@@ -4,7 +4,7 @@
 <form id="animalForm"  method="POST">
 
     <label for="pigeonId">Pigeon ID: </label>
-    <input type="number" id="pigeonId" name="pigeonId"
+    <input required type="number" id="pigeonId" name="pigeonId"
     [(ngModel)]="pigeon.id">
     <br><br>
 
@@ -23,7 +23,7 @@
     [(ngModel)]="kidsIdString">
     <br><br>
 
-    <label for="name">Name: </label>
+    <label required for="name">Name: </label>
     <input type="text" id="name" name="name" required
     [(ngModel)]="pigeon.name">
     <br><br>
