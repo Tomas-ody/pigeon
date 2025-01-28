@@ -44,6 +44,9 @@ export class AddNewComponent {
     if(this.pigeon.id <0 || this.pigeon.id == null){
       return false;
     }
+    if(this.pigeon.fatherId <0 || this.pigeon.motherId <0){
+      return false;
+    }
     //if (this.pigeon.fatherId && this.pigeon.motherId !== this.kidsId )
     //this.pigeonService.getPigeonsId
     return true; 
