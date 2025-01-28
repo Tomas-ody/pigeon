@@ -40,6 +40,7 @@ export class PigeonService {
           response.data.forEach(jsonPigeon => {
             pigeons.push(Pigeon.clone(jsonPigeon));
           });
+          console.log(pigeons);
           return pigeons;
         }),
         catchError(err => this.errorHandler.errorHandling(err, "Couldn't get pigeons from the server."))
@@ -72,7 +73,7 @@ export class PigeonService {
           ),
           catchError(err => this.errorHandler.errorHandling(err, "Couldn't get pigeons from server"))
         );
-
+        console.log(observables);
         return forkJoin(observables);
       })
     );

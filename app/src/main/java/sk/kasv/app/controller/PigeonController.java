@@ -60,6 +60,7 @@ public class PigeonController {
 
         System.out.println("addPigeon");
         Pigeon pigeon = new Pigeon();
+        pigeon.setId(ConverterFromJson.getInt(request, "id"));
         pigeon.setName(ConverterFromJson.getString(request, "name"));
         pigeon.setFatherId(ConverterFromJson.getInt(request, "fatherId"));
         pigeon.setMotherId(ConverterFromJson.getInt(request, "motherId"));
@@ -87,9 +88,10 @@ public class PigeonController {
         updatedPigeon.setMotherId(ConverterFromJson.getInt(request, "motherId"));
         updatedPigeon.setFatherId(ConverterFromJson.getInt(request, "fatherId"));
         updatedPigeon.setKidsId(ConverterFromJson.getList(request, "kidsId"));
-        int id = ConverterFromJson.getInt(request, "id");
+        updatedPigeon.setId(ConverterFromJson.getInt(request, "id"));
 
-        if (pigeonService.updatePigeon(id, updatedPigeon) != null) {
+
+        if (pigeonService.updatePigeon(updatedPigeon) != null) {
             System.out.println("úspešný update");
             return ResponseEntity.status(200).body(true);
 
@@ -108,5 +110,11 @@ public class PigeonController {
         System.out.println("deletePigeon");
         pigeonService.deletePigeon(id);
         return ResponseEntity.status(200).body(true);
+    }
+
+    @CrossOrigin
+    @GetMapping("/id")
+    public ResponseEntity<JSONObject> getPigeonsId() {
+        return ResponseEntity.status(200).body(ConverterToJson.pigeonsIdList(pigeonService.idOfPigeons()));
     }
 }
