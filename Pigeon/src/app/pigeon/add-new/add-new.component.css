@@ -1,26 +1,44 @@
-.addForm{
-  margin: 10px;
-  padding:10px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  width: 325px;
-  
+.addForm {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  background-color: #ffffff;
 }
-.container{
+
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
-.sub-btn{
-  background-color: #1DB954;
+
+input[type="text"],
+input[type="number"] {
+  
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+
+.sub-btn {
+  background:#1DB954;
   font-weight: bold;
   color: #FFFFFF;
   border: none;
-  height: 30px;
-  width: 60px;
+  height: 40px;
+  width: 80px;
   border-radius: 5px;
 }
-.buttons{
+
+.sub-btn:hover {
+  background: #1AAE3D;
+}
+
+.buttons {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }

@@ -42,7 +42,7 @@ export class AddNewComponent {
       return false; 
     }
     //if (this.pigeon.fatherId && this.pigeon.motherId !== this.kidsId )
-    this.pigeonService.getPigeonsId
+    //this.pigeonService.getPigeonsId
     return true; 
   }
   onSubmit(): void {
