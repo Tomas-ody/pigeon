@@ -27,8 +27,11 @@ export class EditComponent {
 
   onApply() {
     if (!this.validateForm()) {
-      this.messageService.errorToast("Please fill in all required fields correctly.", "X", 2000);
-      return;
+      this.messageService.errorToast(
+        "Please fill in all required fields correctly.\n" +
+        "No negative numbers.\n" +
+        "Name has to be at least 3 letters.", "X",4000);
+        return;
     }
 
     this.pigeon.kidsId = this.kidsId;
@@ -44,12 +47,12 @@ export class EditComponent {
 
   validateForm(): boolean {
     if (!this.pigeon.name || this.pigeon.name.length < 3) {
-      return false; // Name is required and must be at least 3 characters
+      return false; 
     }
     if (this.pigeon.fatherId < 0 || this.pigeon.motherId < 0) {
-      return false; // Father ID and Mother ID must be non-negative
+      return false; 
     }
-    return true; // Form is valid
+    return true; 
   }
 
   kidsIdString: string = '';

@@ -4,18 +4,18 @@
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Name</mat-label>
       <input matInput [(ngModel)]="pigeon.name" name="name" required minlength="3" />
-      <mat-error *ngIf="pigeon.name?.length < 3">Name must be at least 3 characters long.</mat-error>
+      <mat-error *ngIf="pigeon.name.length < 3">Name must be at least 3 characters long.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Father ID</mat-label>
-      <input matInput type="number" [(ngModel)]="pigeon.fatherId" name="fatherId" required min="0" />
+      <input matInput type="number" [(ngModel)]="pigeon.fatherId" name="fatherId"/>
       <mat-error *ngIf="pigeon.fatherId < 0">Father ID must be a non-negative number.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Mother ID</mat-label>
-      <input matInput type="number" [(ngModel)]="pigeon.motherId" name="motherId" required min="0" />
+      <input matInput type="number" [(ngModel)]="pigeon.motherId" name="motherId" />
       <mat-error *ngIf="pigeon.motherId < 0">Mother ID must be a non-negative number.</mat-error>
     </mat-form-field>
 
@@ -38,4 +38,3 @@
 <div mat-dialog-actions align="end">
   <button class="cancel-btn" mat-button (click)="onCancel()">Cancel</button>
   <button class="apply-btn" mat-raised-button color="primary" (click)="onApply()">Apply</button>
-</div>
