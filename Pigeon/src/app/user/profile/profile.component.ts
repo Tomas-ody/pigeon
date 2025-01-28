@@ -128,10 +128,20 @@ export class ProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.pigeonService.deletePigeon(pigeonId).subscribe(() => {
-          //this.loadDataPigeons(localStorage.getItem("Token"));
-          this.loadDataPigeonsOtherUser(this.user?.id || 0);
+          this.authService.ownProfile$.subscribe(
+            (loggedInStatus) => {
+              if (loggedInStatus) {
+                this.loadDataPigeons(localStorage.getItem("Token"));
+              }
+              else {
+                this.loadDataPigeonsOtherUser(this.user?.id || 0);
+              }
+            }
+          )
           this.messageService.successToast("Pigeon deleted successfully", "X", 2000);
         });
+
+
       }
     });
   }

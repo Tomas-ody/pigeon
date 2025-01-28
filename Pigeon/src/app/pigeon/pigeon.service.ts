@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, EMPTY, forkJoin, map, mergeMap, Observable } from 'rxjs';
+import { catchError, EMPTY, forkJoin, map, mergeMap, Observable, of } from 'rxjs';
 import { Pigeon } from './entities/pigeon';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from '../shared/message.service';
@@ -56,6 +56,15 @@ export class PigeonService {
     return this.http.get<Pigeon>(this.serverUrl + "pigeons/pigeon/" + id).pipe(
       catchError(err => this.errorHandler.errorHandling(err, "Couldn't get data from a server."))
       );;
+  }
+  getPigeonsId(): Observable<Array<number>> {
+    return this.http.get<{ data: Array<number> }>(this.serverUrl + "pigeons/id").pipe(
+      map(response => response.data),
+      catchError(err => {
+        this.errorHandler.errorHandling(err, "Server couldn't send data.");
+        return of([]);
+      })
+    );
   }
 
   getPigeons(): Observable<Pigeon[]> {
