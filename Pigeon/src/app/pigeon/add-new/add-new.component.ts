@@ -59,10 +59,8 @@ export class AddNewComponent {
         "Name has to be at least 3 letters.", "X",4000);
         return;
     }
-      //this.messageService.errorToast;
       this.pigeon.kidsId = this.kidsId;
-      const token = localStorage.getItem("Token");
-      this.pigeonService.sendAddNewPigeon(this.pigeon, token).subscribe({
+      this.pigeonService.sendAddNewPigeon(this.pigeon).subscribe({
         next: success => {
           if (success) {
             console.log("add pigeon");

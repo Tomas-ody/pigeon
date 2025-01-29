@@ -101,8 +101,8 @@ export class PigeonService {
     )
   }
 
-  sendAddNewPigeon(pigeon: Pigeon, token: any): Observable<Pigeon> {
-    return this.http.post<Pigeon>(this.serverUrl + "pigeons/add", pigeon/*, {headers : {Authorization: token}}*/).pipe(
+  sendAddNewPigeon(pigeon: Pigeon): Observable<Pigeon> {
+    return this.http.post<Pigeon>(this.serverUrl + "pigeons/add", pigeon).pipe(
       
       map(jsonPigeon => Pigeon.clone(jsonPigeon)),
       catchError(err => this.errorHandler.errorHandling(err, "Couldn't send data to a server."))
