@@ -20,8 +20,7 @@ export class ListComponent {
   users?: User[];
 
   ngOnInit() {
-    const token = localStorage.getItem("Token");
-    this.userService.getUsers(token).subscribe(
+    this.userService.getUsers().subscribe(
       (users) => {
         this.users = users
       }

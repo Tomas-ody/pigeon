@@ -69,7 +69,7 @@ export class UserService {
     }
     else {
 
-      return this.http.get<any>(this.serverUrl + "users/me"/*, { headers: {Authorization: token}}*/).pipe(
+      return this.http.get<any>(this.serverUrl + "users/me").pipe(
         map((jsonUser: any) => {
           console.log(jsonUser);
           const user = User.clone(jsonUser);
@@ -84,9 +84,9 @@ export class UserService {
     return this.http.get<any>(this.serverUrl + "users/me");
   }
 
-  getUsers(token: any): Observable<User[]> {
+  getUsers(): Observable<User[]> {
     const users: User[] = [];
-    return this.http.get<{data: User[]}>(this.serverUrl + "users/all"/*, { headers: {Authorization: token}}*/).pipe(
+    return this.http.get<{data: User[]}>(this.serverUrl + "users/all").pipe(
           map(response => {
               
             response.data.forEach(jsonUser => {
